@@ -12,5 +12,5 @@ public interface SendRegisterEmail extends Interaction {
     record EmailFailed(String reason) implements EmailResult {};
 
     @FiresEvent(oneOf = { EmailSent.class, EmailFailed.class })
-    EmailResult apply(@RequiresIngredient("customer") Customer customer, @RequiresIngredient("template") String template);
+    EmailResult apply(@RequiresIngredient("customer") Customer customer);
 }

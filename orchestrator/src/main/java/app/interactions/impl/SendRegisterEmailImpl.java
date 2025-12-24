@@ -23,8 +23,8 @@ public class SendRegisterEmailImpl implements SendRegisterEmail {
     private static ObjectMapper _mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     
     @Override
-    public EmailResult apply(Customer customer, String template) {
-        var body = toBody(customer, template);
+    public EmailResult apply(Customer customer) {
+        var body = toBody(customer);
         var request = HttpRequest.newBuilder(URI.create(endpoint))
                                  .header("Content-Type", "application/json")
                                  .POST(HttpRequest.BodyPublishers.ofString(body))
@@ -42,7 +42,7 @@ public class SendRegisterEmailImpl implements SendRegisterEmail {
         }
     }
 
-    private static String toBody(Customer customer, String template) {
+    private static String toBody(Customer customer) {
         var fields = Map.of("firstname", customer.getFirstname(), 
                             "lastname", customer.getLastname(),
                             "email", customer.getEmail());
