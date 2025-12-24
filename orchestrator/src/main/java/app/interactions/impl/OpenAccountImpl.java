@@ -17,8 +17,8 @@ import app.ingredients.OpenAccountRequest;
 import app.interactions.OpenAccount;
 
 public class OpenAccountImpl implements OpenAccount {
-    @Value("${api.accounts}")
-    private String endpoint;
+
+    private static final String endpoint = "http://localhost:8082/accounts";
     private static ObjectMapper _mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     
     @Override
@@ -31,7 +31,7 @@ public class OpenAccountImpl implements OpenAccount {
         try {
             var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             var result = new JSONObject(response.body());
-            if(response.statusCode() == 200)
+            if(response.statusCode() >= 200 && response.statusCode() < 300)
                 return new OpenAccount.AccountOpened(result.getString("id"));
             else 
                 return new OpenAccount.AccountFailed("open-account-failed");    

@@ -162,7 +162,7 @@
 import axios from 'axios'
 import { reactive, ref, computed } from 'vue'
 
-const endpoint = 'http://localhost:8081/register'
+const endpoint = 'http://localhost:8080/register'
 
 type RegisterForm = {
   firstname: string

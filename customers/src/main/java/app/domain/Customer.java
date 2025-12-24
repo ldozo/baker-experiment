@@ -29,8 +29,7 @@ public class Customer {
     @Email
     @Column(nullable = false)
     private String email;
-
-    @NotBlank
+ 
     @Column(nullable = false)
     private int age;
 

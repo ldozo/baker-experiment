@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,10 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import app.ingredients.Customer;
 import app.interactions.RegisterCustomer;
-
+ 
 public class RegisterCustomerImpl implements RegisterCustomer {
-    @Value("${api.customers}")
-    private String endpoint;
+
+    private static final String endpoint = "http://localhost:8081/customers";
     private static ObjectMapper _mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     
     @Override
@@ -30,10 +31,10 @@ public class RegisterCustomerImpl implements RegisterCustomer {
         try {
             var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             var result = new JSONObject(response.body());
-            if(response.statusCode() == 200)
+            if(response.statusCode() >= 200 && response.statusCode() < 300)
                 return new RegisterCustomer.CustomerRegistered(result.getString("id"), "main", "tr");
             else 
-                return new RegisterCustomer.CustomerRejected("register-customer-rejected");
+                return new RegisterCustomer.CustomerRejected(result.getString("error"));
         } catch (IOException | InterruptedException e) {
             return new RegisterCustomer.CustomerRejected(e.getMessage());
         }

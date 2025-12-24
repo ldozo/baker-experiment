@@ -32,7 +32,7 @@ public class SendRegisterEmailImpl implements SendRegisterEmail {
         try {
             var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             var result = new JSONObject(response.body());
-            if(response.statusCode() == 200)
+            if(response.statusCode() >= 200 && response.statusCode() < 300)
                 return new SendRegisterEmail.EmailSent(result.getString("id"));
             else 
                 return new SendRegisterEmail.EmailFailed("sending-email-failed");
