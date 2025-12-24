@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Money Transfer Confirmation</title>
+</head>
+<body style="margin:0; padding:0; background:#f6f9fc; font-family:Arial, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f9fc;">
+    <tr>
+      <td align="center" style="padding:24px;">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px;">
+          <!-- Header -->
+          <tr>
+            <td style="text-align:center; padding:16px; font-size:20px; font-weight:bold; color:#065f46;">
+              Our Bank
+            </td>
+          </tr>
+          <!-- Body -->
+          <tr>
+            <td style="padding:24px; color:#334155; font-size:14px;">
+              <p style="margin-top:0; font-size:16px; font-weight:bold;">
+                Hello <span th:text="${customerName}">Customer</span>, your transaction is complete.
+              </p>
+              <p>Details:</p>
+              <table width="100%" style="margin:12px 0; font-size:14px;">
+                <tr><td>Amount:</td><td style="text-align:right;"><strong th:text="${amount}">0.00</strong> <span th:text="${currency}">TRY</span></td></tr>
+                <tr><td>Recipient:</td><td style="text-align:right;" th:text="${toAccountName}">Savings-02</td></tr>
+                <tr><td>Reference:</td><td style="text-align:right;"><code th:text="${reference}">REF-000</code></td></tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="text-align:center; padding:16px; font-size:12px; color:#64748b;">
+              © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> our Bank
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+``
