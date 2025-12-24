@@ -1,5 +1,11 @@
 package app.ingredients;
 
-public class SendEmailRequest {
+import java.util.Map;
+
+public record SendEmailRequest(
+    String toAddress,
+    String template,
+    Map<String, String> fields
+) {
 
 }

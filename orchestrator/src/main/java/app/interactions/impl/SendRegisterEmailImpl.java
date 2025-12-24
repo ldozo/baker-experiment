@@ -5,24 +5,26 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import app.ingredients.Customer;
-import app.interactions.RegisterCustomer;
+import app.ingredients.SendEmailRequest; 
+import app.interactions.SendRegisterEmail;
 
-public class RegisterCustomerImpl implements RegisterCustomer {
-    @Value("${api.customers}")
+public class SendRegisterEmailImpl implements SendRegisterEmail {
+    @Value("${api.email}")
     private String endpoint;
     private static ObjectMapper _mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     
     @Override
-    public RegisterResult apply(Customer customer) {
-        var body = toBody(customer);
+    public EmailResult apply(Customer customer, String template) {
+        var body = toBody(customer, template);
         var request = HttpRequest.newBuilder(URI.create(endpoint))
                                  .header("Content-Type", "application/json")
                                  .POST(HttpRequest.BodyPublishers.ofString(body))
@@ -31,17 +33,23 @@ public class RegisterCustomerImpl implements RegisterCustomer {
             var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             var result = new JSONObject(response.body());
             if(response.statusCode() == 200)
-                return new RegisterCustomer.CustomerRegistered(result.getString("id"), "main", "tr");
+                return new SendRegisterEmail.EmailSent(result.getString("id"));
             else 
-                return new RegisterCustomer.CustomerRejected("register-customer-rejected");
+                return new SendRegisterEmail.EmailFailed("sending-email-failed");
         } catch (IOException | InterruptedException e) {
-            return new RegisterCustomer.CustomerRejected(e.getMessage());
+            System.err.println(e);
+            return new SendRegisterEmail.EmailFailed(e.getMessage());
         }
     }
 
-    private static String toBody(Customer cust) {
-        try { return _mapper.writeValueAsString(cust); }
+    private static String toBody(Customer customer, String template) {
+        var fields = Map.of("firstname", customer.getFirstname(), 
+                            "lastname", customer.getLastname(),
+                            "email", customer.getEmail());
+        var req = new SendEmailRequest(customer.getEmail(),  "WELCOME", fields);
+
+        try { return _mapper.writeValueAsString(req); } 
         catch (JsonProcessingException e) { System.err.println(e); }
         return null;
-    } 
+    }
 }

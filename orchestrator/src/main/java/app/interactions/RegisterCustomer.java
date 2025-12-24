@@ -4,14 +4,14 @@ import com.ing.baker.recipe.annotations.FiresEvent;
 import com.ing.baker.recipe.annotations.RequiresIngredient;
 import com.ing.baker.recipe.javadsl.Interaction;
 
-import app.ingredients.RegisterCustomerRequested;
+import app.ingredients.Customer;
 
 public interface RegisterCustomer extends Interaction {
-    interface Outcome {}
-    record CustomerRegistered (String customerId) implements Outcome {}
-    record CustomerRejected(String reason) implements Outcome {}
+    interface RegisterResult {}
+    record CustomerRegistered (String customerId, String name, String currency) implements RegisterResult {}
+    record CustomerRejected(String reason) implements RegisterResult {}
 
     @FiresEvent(oneOf = { CustomerRegistered.class, CustomerRejected.class })
-    Outcome apply(@RequiresIngredient("customerRequest") RegisterCustomerRequested customer);
+    RegisterResult apply(@RequiresIngredient("customer") Customer customer);
 
 }

@@ -1,15 +1,15 @@
-package app;
+package app.configuration;
 
- import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebCorsConfig implements WebMvcConfigurer {
+public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")          // All paths
+        registry.addMapping("/**")         // All paths
                 .allowedOrigins("*")        // Allow all origins
                 .allowedMethods("*")        // Allow all HTTP methods
                 .allowedHeaders("*")        // Allow all headers
