@@ -2,3 +2,4 @@ accounts/.vscode/settings.json
 data/*
 **/.vscode/**
 **/target/**
+**/application-dev.properties
