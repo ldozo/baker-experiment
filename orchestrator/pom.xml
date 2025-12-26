@@ -93,7 +93,7 @@
         <repository>
             <id>akka-secure</id>
             <name>Akka Secure</name>
-            <url>https://repo.akka.io/XXX/secure</url>
+            <url>https://repo.akka.io/ok7dSK2DNcRuuoBDU_tt9K6Zg8NUIz3vBYnuXBiEVfM0aGCh/secure</url>
         </repository>
     </repositories>
 </project>

@@ -1,5 +1,5 @@
-accounts/.vscode/settings.json
+**/.vscode/*
+**/.idea*
 data/*
-**/.vscode/**
 **/target/**
 **/application-dev.properties

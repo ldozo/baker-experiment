@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,9 @@ public class CustomerController {
         var sensoryEvent = EventInstance.from(event);
         try {
             _baker.instance().bake(_recipe.ID(), recipeInstanceId).get();
-            var result = _baker.instance().fireEvent(recipeInstanceId, sensoryEvent);
+            var result = _baker.instance().fireEventAndResolveWhenCompleted(recipeInstanceId, sensoryEvent).join();
+            System.out.println(result);
+
         } catch (InterruptedException | ExecutionException e) {
             System.err.println(e);
         }

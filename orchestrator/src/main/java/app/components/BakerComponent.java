@@ -13,11 +13,9 @@ import app.interactions.impl.SendRegisterEmailImpl;
 
 @Component
 public class BakerComponent {
-    private Baker _baker;
+    private final Baker _baker;
 
     public BakerComponent (){
-        if(_baker != null)
-            return;
         _baker = InMemoryBaker.java(
             List.of(new RegisterCustomerImpl(), new OpenAccountImpl(), new SendRegisterEmailImpl())
         );

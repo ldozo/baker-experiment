@@ -18,8 +18,7 @@ import app.ingredients.SendEmailRequest;
 import app.interactions.SendRegisterEmail;
 
 public class SendRegisterEmailImpl implements SendRegisterEmail {
-    @Value("${api.email}")
-    private String endpoint;
+    private String endpoint = "http://localhost:8090/send";
     private static ObjectMapper _mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     
     @Override

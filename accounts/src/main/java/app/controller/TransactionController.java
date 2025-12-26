@@ -65,7 +65,7 @@ public class TransactionController {
         }
         // Currency must match account
         if (!account.getCurrency().equalsIgnoreCase(input.getCurrency())) {
-            return ResponseEntity.badRequest().body(err("tx.currency.mismatch"));
+            throw new RuntimeException("tx.currency.mismatch");
         }
         // Amount > 0 already validated by @DecimalMin
 
@@ -74,7 +74,7 @@ public class TransactionController {
             account.setBalance(account.getBalance().add(amount));
         } else { // CREDIT
             if (account.getBalance().compareTo(amount) < 0) {
-                return ResponseEntity.unprocessableEntity().body(err("tx.insufficientFunds"));
+                throw new RuntimeException("tx.insufficientFunds");
             }
             account.setBalance(account.getBalance().subtract(amount));
         }
@@ -85,9 +85,5 @@ public class TransactionController {
         Transaction saved = txRepo.save(input);
 
         return ResponseEntity.created(URI.create("/transactions/" + saved.getId())).body(saved);
-    }
-
-    private static String err(String key) {
-        return "{\"error\":\"" + key + "\"}";
     }
 }

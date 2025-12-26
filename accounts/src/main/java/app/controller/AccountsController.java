@@ -41,13 +41,13 @@ public class AccountsController {
     public ResponseEntity<?> create(@Valid @RequestBody Account input) {
         input.setId(null); // ULID via @PrePersist
         if (repo.existsByCustomerIdAndNameIgnoreCase(input.getCustomerId(), input.getName())) {
-            return ResponseEntity.status(409).body(err("account.conflict"));
+            throw new RuntimeException("account.conflict");
         }
         try {
             Account saved = repo.save(input);
             return ResponseEntity.created(URI.create("/accounts/" + saved.getId())).body(saved);
         } catch (DataIntegrityViolationException ex) {
-            return ResponseEntity.status(409).body(err("account.conflict"));
+            throw new RuntimeException(ex.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class AccountsController {
     public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody Account input) {
         return repo.findById(id).map(existing -> {
             if (repo.existsByCustomerIdAndNameIgnoreCaseAndIdNot(input.getCustomerId(), input.getName(), id)) {
-                return ResponseEntity.status(409).body(err("account.conflict"));
+                throw new RuntimeException("account.conflict");
             }
             existing.setName(input.getName());
             existing.setBalance(input.getBalance());
@@ -75,10 +75,5 @@ public class AccountsController {
     @GetMapping("/health")
     public ResponseEntity<?> health() {
         return ResponseEntity.ok().body("{\"status\":\"ok\"}");
-    }
-
-    private static String err(String key) {
-        // Key is resolved to human text in GlobalExceptionHandler; if not used, returns the key.
-        return "{\"error\":\"" + key + "\"}";
     }
 }

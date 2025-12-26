@@ -23,7 +23,7 @@ public class RegisterCustomerRecipe {
                             InteractionDescriptor.of(SendRegisterEmail.class).withRequiredEvent(RegisterCustomer.CustomerRegistered.class)
                         );
                         
-    private BakerComponent _baker;
+    private final BakerComponent _baker;
     private String _id;
 
     public RegisterCustomerRecipe(BakerComponent baker) {
