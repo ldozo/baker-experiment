@@ -1,0 +1,6 @@
+**/.vscode/*
+**/.idea*
+data/*
+**/target/**
+**/application-dev.properties
+**/.settings/*
