@@ -19,9 +19,14 @@ public class RegisterCustomerRecipe {
     private static final Recipe _recipe = new Recipe("register-customer-recipe")
                         .withSensoryEvent(RegisterCustomerRequested.class)
                         .withInteractions(
-                            InteractionDescriptor.of(RegisterCustomer.class),
-                            InteractionDescriptor.of(OpenAccount.class).withRequiredEvent(RegisterCustomer.CustomerRegistered.class),
-                            InteractionDescriptor.of(SendRegisterEmail.class).withRequiredEvent(OpenAccount.AccountOpened.class)
+                            InteractionDescriptor.of(RegisterCustomer.class)
+                                                     .withMaximumInteractionCount(1),
+                            InteractionDescriptor.of(OpenAccount.class)
+                                                     .withRequiredEvent(RegisterCustomer.CustomerRegistered.class)
+                                                     .withMaximumInteractionCount(1),
+                            InteractionDescriptor.of(SendRegisterEmail.class)
+                                                     .withRequiredEvent(OpenAccount.AccountOpened.class)
+                                                     .withMaximumInteractionCount(1)
                         );
                         
     private final BakerComponent _baker;
