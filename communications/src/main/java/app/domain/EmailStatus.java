@@ -2,5 +2,5 @@
 package app.domain;
 
 public enum EmailStatus {
-    SENT, FAILED
+    READY, SENT, FAILED
 }

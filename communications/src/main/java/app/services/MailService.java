@@ -47,11 +47,11 @@ public class MailService {
         log.setTo(to);
         log.setSubject(subject);
         log.setBody(bodyHtml);
-        log.setStatus(EmailStatus.FAILED); // default until sent
+        log.setStatus(EmailStatus.READY); // default until sent
         log.setCreatedAt(Instant.now());
 
         try {
-            send(to, subject, bodyHtml);
+            //send(to, subject, bodyHtml);
             log.setStatus(EmailStatus.SENT);
             log.setSentAt(Instant.now());
         } catch (Exception ex) {
@@ -97,9 +97,12 @@ public class MailService {
     /** Quick guard for required fields per template (optional, extend as needed). */
     public void validateRequired(EmailTemplate template, Map<String, Object> fields) {
         switch (template) {
-            case WELCOME -> require(fields, "customerName");
+            case WELCOME -> {
+                require(fields, "firstname");
+                require(fields, "lastname");
+            }
             case MONEY_TRANSFER -> {
-                require(fields, "customerName");
+                require(fields, "fromCustomerName");
                 require(fields, "amount");
                 require(fields, "currency");
                 require(fields, "toAccountName");

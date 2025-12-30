@@ -40,14 +40,14 @@ public class CustomerController {
         input.setId(null);
 
         if (repo.existsByEmailIgnoreCase(input.getEmail())) {
-            return ResponseEntity.status(409).body(err("Email already exists"));
+            throw new RuntimeException("Email already exists");
         }
 
         try {
             Customer saved = repo.save(input);
             return ResponseEntity.created(URI.create("/customers/" + saved.getId())).body(saved);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(409).body(err("Email already exists"));
+            throw new RuntimeException("Email already exists");
         }
     }
 
@@ -55,7 +55,7 @@ public class CustomerController {
     public ResponseEntity<?> update(@PathVariable("id") String id, @Valid @RequestBody Customer input) {
         return repo.findById(id).map(existing -> {
             if (repo.existsByEmailIgnoreCaseAndIdNot(input.getEmail(), id)) {
-                return ResponseEntity.status(409).body(err("Email already exists"));
+                throw new RuntimeException("Email already exists");
             }
             existing.setFirstname(input.getFirstname());
             existing.setLastname(input.getLastname());
@@ -74,8 +74,4 @@ public class CustomerController {
 
     @GetMapping("/health")
     public ResponseEntity<?> health() { return ResponseEntity.ok().body("{\"status\":\"ok\"}"); }
-
-    private static String err(String msg) {
-        return "{\"error\":\"" + msg.replace("\"", "\\\"") + "\"}";
-    }
 }

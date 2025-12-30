@@ -17,7 +17,6 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class RegisterCustomerRecipe {
     private static final Recipe _recipe = new Recipe("register-customer-recipe")
-                        .withDefaultFailureStrategy(new InteractionFailureStrategy.BlockInteraction())
                         .withSensoryEvent(RegisterCustomerRequested.class)
                         .withInteractions(
                             InteractionDescriptor.of(RegisterCustomer.class),
