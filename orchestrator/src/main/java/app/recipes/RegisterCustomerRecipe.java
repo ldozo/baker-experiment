@@ -2,9 +2,9 @@ package app.recipes;
 
 import java.util.concurrent.ExecutionException;
 
-import com.ing.baker.recipe.common.InteractionFailureStrategy;
 import org.springframework.stereotype.Component;
 import com.ing.baker.compiler.RecipeCompiler;
+import com.ing.baker.il.CompiledRecipe;
 import com.ing.baker.recipe.javadsl.InteractionDescriptor;
 import com.ing.baker.recipe.javadsl.Recipe;
 import app.components.BakerComponent;
@@ -30,17 +30,18 @@ public class RegisterCustomerRecipe {
                         );
                         
     private final BakerComponent _baker;
-    private String _id;
-
+    private String _id; 
+    private CompiledRecipe _compileRecipe;
+    
     public RegisterCustomerRecipe(BakerComponent baker) {
         _baker = baker;
     }
     
     @PostConstruct
-    public void instance() {
+    public void init() {
         try {
-            var compiledRecipe = RecipeCompiler.compileRecipe(_recipe);
-            _id = _baker.instance().addRecipe(compiledRecipe, true).get();
+            _compileRecipe = RecipeCompiler.compileRecipe(_recipe);
+            _id = _baker.instance().addRecipe(_compileRecipe, true).get();
         } catch (InterruptedException | ExecutionException e) {
             System.err.println(e);
         }
@@ -48,5 +49,9 @@ public class RegisterCustomerRecipe {
 
     public String ID() {
         return _id;
+    }
+
+    public CompiledRecipe compiled() {
+        return _compileRecipe;
     }
 }

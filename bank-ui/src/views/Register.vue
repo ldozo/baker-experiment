@@ -1,9 +1,9 @@
 
 <template>
-  <div class="container mx-auto my-10 px-4">
-    <div class="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+  <div class="container mx-auto my-10 px-4 gap-2">
+    <div class="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-2 items-start">
       <!-- Left: Form card -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="bg-white rounded-lg border p-6">
         <h1 class="text-2xl font-bold text-gray-900 mb-4">Register</h1>
 
         <!-- Success / Error banners -->
@@ -105,7 +105,7 @@
       </div>
 
       <!-- Right: Request/Response inspector -->
-      <div class="bg-white   p-6">
+      <div class="bg-white border rounded-lg  p-6">
         <div class="space-y-5">
           <!-- Request Body -->
           <section>
@@ -155,12 +155,18 @@
         </div>
       </div>
     </div>
+    <div class="bg-white w-full rounded-lg border mt-2">
+      <MyGraphvizRenderer :value="lastResponse?.visual" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
+import * as d3 from 'd3'
+import 'd3-graphviz'
+import MyGraphvizRenderer from '@/components/MyGraphvizRenderer.vue'
 
 const endpoint = 'http://localhost:8080/register'
 
@@ -283,4 +289,5 @@ async function submit() {
     submitting.value = false
   }
 }
+
 </script>

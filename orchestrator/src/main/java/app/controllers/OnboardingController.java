@@ -24,11 +24,11 @@ import app.interactions.SendRegisterEmail;
 import app.recipes.RegisterCustomerRecipe;
 
 @RestController
-public class CustomerController {
+public class OnboardingController {
     private BakerComponent _baker;
     private RegisterCustomerRecipe _recipe;
 
-    public CustomerController(BakerComponent baker, RegisterCustomerRecipe recipe) {
+    public OnboardingController(BakerComponent baker, RegisterCustomerRecipe recipe) {
         _baker = baker;
         _recipe = recipe;
     }
@@ -57,6 +57,7 @@ public ResponseEntity<Map<String, Object>> register(@RequestBody Customer reques
                                 .orTimeout(3, TimeUnit.SECONDS)
                                 .join();
         body.put("ingredients", state.getIngredients());
+        body.put("visual", _recipe.compiled().getRecipeVisualization());
 
         final var events = result.getEventNames();
         final boolean hasFailure =
