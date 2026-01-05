@@ -33,7 +33,7 @@ public class AccountsController {
     }
 
     @GetMapping("/by-customer/{customerId}")
-    public List<Account> byCustomer(@PathVariable String customerId) {
+    public List<Account> byCustomer(@PathVariable("customerId") String customerId) {
         return repo.findByCustomerId(customerId);
     }
 

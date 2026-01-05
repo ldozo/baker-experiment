@@ -1,7 +1,7 @@
 
 <template>
   <!-- Base layout = regular div, constrained width -->
-  <div class="bg-gray-50">
+  <div class="bg-white border rounded-lg">
     <!-- Header with link to root -->
     <header class="px-6 py-4">
       <div class="mx-auto max-w-6xl flex items-center justify-between">
@@ -49,8 +49,8 @@
                     :class="selectedId === p.id ? 'bg-emerald-50/70' : ''"
                     @click="startEdit(p)"
                   >
-                    <td class="px-4 py-2 font-medium text-gray-900">{{ p.firstName }}</td>
-                    <td class="px-4 py-2 text-gray-900">{{ p.lastName }}</td>
+                    <td class="px-4 py-2 font-medium text-gray-900">{{ p.firstname }}</td>
+                    <td class="px-4 py-2 text-gray-900">{{ p.lastname }}</td>
                     <td class="px-4 py-2">
                       <span class="rounded-full px-2 py-1 text-xs font-medium uppercase tracking-wide" :class="statusPillClass(p.status)">
                         {{ p.status }}
@@ -89,7 +89,7 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700">First name</label>
                   <input
-                    v-model.trim="form.firstName"
+                    v-model.trim="form.firstname"
                     type="text"
                     :disabled="!isEditing"
                     required
@@ -100,7 +100,7 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700">Last name</label>
                   <input
-                    v-model.trim="form.lastName"
+                    v-model.trim="form.lastname"
                     type="text"
                     :disabled="!isEditing"
                     required
@@ -208,8 +208,8 @@ type Status = 'initial' | 'underage' | 'active' | 'deceased'
 
 type Person = {
   id: number | string
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   status: Status
   email?: string
   age?: number
@@ -222,15 +222,15 @@ const banner = ref<string | null>(null)
 const isEditing = ref(false)
 const selectedId = ref<number | string | null>(null)
 const form = ref<{
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   status: Status
   email: string
   age: number | null
   nationality: string
 }>({
-  firstName: '',
-  lastName: '',
+  firstname: '',
+  lastname: '',
   status: 'initial',
   email: '',
   age: null,
@@ -260,8 +260,8 @@ function startEdit(p: Person) {
   isEditing.value = true
   selectedId.value = p.id
   form.value = {
-    firstName: p.firstName ?? '',
-    lastName: p.lastName ?? '',
+    firstname: p.firstname ?? '',
+    lastname: p.lastname ?? '',
     status: (p.status ?? 'initial') as Status,
     email: p.email ?? '',
     age: typeof p.age === 'number' ? p.age : null,
@@ -288,8 +288,8 @@ async function loadCustomers() {
 
     people.value = (Array.isArray(raw) ? raw : []).map((c: any, idx: number) => ({
       id: c.id ?? c.customerId ?? idx + 1,
-      firstName: c.firstName ?? c.givenName ?? c.name?.first ?? '',
-      lastName: c.lastName ?? c.surname ?? c.name?.last ?? '',
+      firstname: c.firstname ?? c.givenName ?? c.name?.first ?? '',
+      lastname: c.lastname ?? c.surname ?? c.name?.last ?? '',
       status: toStatus(c.status),
       email: c.email ?? '',
       age: typeof c.age === 'number' ? c.age : undefined,
@@ -310,7 +310,7 @@ async function savePerson() {
   if (!isEditing.value || selectedId.value == null) return
 
   // Minimal client validation
-  if (!form.value.firstName || !form.value.lastName) {
+  if (!form.value.firstname || !form.value.lastname) {
     showBanner('First and last name are required')
     return
   }
@@ -328,8 +328,8 @@ async function savePerson() {
     p.id === selectedId.value
       ? {
           ...p,
-          firstName: form.value.firstName.trim(),
-          lastName: form.value.lastName.trim(),
+          firstname: form.value.firstname.trim(),
+          lastname: form.value.lastname.trim(),
           status: form.value.status,
           email: form.value.email.trim() || undefined,
           age: form.value.age ?? undefined,
@@ -344,8 +344,8 @@ async function savePerson() {
   //     method: 'PUT',
   //     headers: { 'Content-Type': 'application/json' },
   //     body: JSON.stringify({
-  //       firstName: form.value.firstName.trim(),
-  //       lastName: form.value.lastName.trim(),
+  //       firstname: form.value.firstname.trim(),
+  //       lastname: form.value.lastname.trim(),
   //       status: form.value.status,
   //       email: form.value.email.trim() || null,
   //       age: form.value.age ?? null,

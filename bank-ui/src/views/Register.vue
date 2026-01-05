@@ -1,9 +1,17 @@
 
 <template>
-  <div class="container mx-auto my-10 px-4 gap-2">
+  <div class="bg-white p-6 border rounded-lg shadow container mx-auto my-10 px-4 gap-2">
+    <div class="w-full flex justify-end">
+      <router-link
+          to="/"
+          class="inline-flex items-center text-emerald-600 hover:text-emerald-700 text-sm font-medium"
+        >
+          ← Back to root
+        </router-link>
+    </div>
     <div class="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-2 items-start">
       <!-- Left: Form card -->
-      <div class="bg-white rounded-lg border p-6">
+      <div class="bg-white border-gray-200 shadow-sm rounded-lg p-6">
         <h1 class="text-2xl font-bold text-gray-900 mb-4">Register</h1>
 
         <!-- Success / Error banners -->
@@ -105,11 +113,11 @@
       </div>
 
       <!-- Right: Request/Response inspector -->
-      <div class="bg-white border rounded-lg  p-6">
-        <div class="space-y-5">
+      <div class="p-6 border-gray-200 shadow-sm rounded-lg">
+        <div class="space-y-5" >
           <!-- Request Body -->
           <section>
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-2 ">
               <span class="text-gray-700 font-medium">Request body</span>
               <button
                 v-if="lastRequest"
@@ -155,7 +163,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-white w-full rounded-lg border mt-2">
+    <div class="bg-white w-full border-gray-200 shadow-sm rounded-lg border mt-2">
       <MyGraphvizRenderer :value="lastResponse?.visual" />
     </div>
   </div>
