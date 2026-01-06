@@ -12,7 +12,8 @@ This repository contains several sub projects
 - bank-ui : A simple Vuejs application which connects to services
 
 These applications need apache maven and npm to run on your local.
-Each has its own database using h2 and stored in local files.
+- Each has its own database using h2 and stored in local files.
+- Each java project has application.properties and application-sample.properties to ease development. I am using dev profile and copied sample.
 
 For akka library you need to get a token from Akka account page [https://account.akka.io/key]
 You may put the following code (from akka) to your pom or settings.xml in your .m2 folder.

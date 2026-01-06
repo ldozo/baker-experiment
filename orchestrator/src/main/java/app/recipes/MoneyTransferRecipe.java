@@ -27,7 +27,7 @@ public class MoneyTransferRecipe {
                         .withSensoryEvent(MoneyTransferRequested.class)
                         .withInteractions(
                             InteractionDescriptor.of(ValidateSourceCustomer.class)
-                                                     .withRequiredEvent(MoneyTransferRequested.class)
+                                                     .withRequiredEvent(ValidateSourceAccount.SourceAccountValidated.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateSourceAccount.class)
                                                      .withRequiredEvent(MoneyTransferRequested.class)
@@ -42,7 +42,7 @@ public class MoneyTransferRecipe {
                                                      .withRequiredEvent(MoneyTransferRequested.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(DebitAccount.class)
-                                                     .withRequiredEvent(MoneyTransferRequested.class)
+                                                     .withRequiredEvent(ValidateSourceAccount.SourceAccountValidated.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(CreditAccount.class)
                                                      .withRequiredEvent(null)
