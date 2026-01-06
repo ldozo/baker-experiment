@@ -10,6 +10,11 @@ import com.ing.baker.runtime.javadsl.Baker;
 import app.interactions.impl.OpenAccountImpl;
 import app.interactions.impl.RegisterCustomerImpl;
 import app.interactions.impl.SendRegisterEmailImpl;
+import app.interactions.impl.ValidateSourceAccountImpl;
+import app.interactions.impl.ValidateSourceCustomerImpl;
+import app.interactions.impl.ValidateTargetAccountImpl;
+import app.interactions.impl.ValidateTargetCustomerImpl;
+import app.interactions.impl.ValidateTransactionImpl;
 
 @Component
 public class BakerComponent {
@@ -17,10 +22,15 @@ public class BakerComponent {
 
     public BakerComponent (RegisterCustomerImpl rci,
                             OpenAccountImpl oai,
-                            SendRegisterEmailImpl srei
+                            SendRegisterEmailImpl srei,
+                            ValidateSourceAccountImpl vsai,
+                            ValidateSourceCustomerImpl vsaci,
+                            ValidateTargetAccountImpl vtai,
+                            ValidateTargetCustomerImpl vtci,
+                            ValidateTransactionImpl vti
     ){
         _baker = InMemoryBaker.java(
-            List.of(rci, oai, srei)
+            List.of(rci, oai, srei, vsai, vsaci, vtai, vtci, vti)
         );
     }
 
