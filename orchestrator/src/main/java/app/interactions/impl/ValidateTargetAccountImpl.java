@@ -27,14 +27,14 @@ public class ValidateTargetAccountImpl implements ValidateTargetAccount {
         }
 
         var obj = new JSONObject(response.body());
-        if (!(response.statusCode() >= 200 && response.statusCode() < 300)) {
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
             return new ValidateTargetAccount.TargetAccountFailed(obj.getString("error"));
         }
 
         if (obj.getString("currency").equals(currency)) {
-            return new ValidateTargetAccount.TargetAccountFailed("Currency Missmatch");
+            return new ValidateTargetAccount.TargetAccountFailed("Target Currency Missmatch");
         }
-        return new ValidateTargetAccount.TargetAccountValidated(accountId);
+        return new ValidateTargetAccount.TargetAccountValidated(obj.getString("customer_id"));
     }
 
 }

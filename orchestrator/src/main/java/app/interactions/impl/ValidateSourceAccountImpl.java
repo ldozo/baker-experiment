@@ -31,12 +31,12 @@ public class ValidateSourceAccountImpl implements ValidateSourceAccount {
         }
 
         if(obj.getBigDecimal("balance").compareTo(amount) < 0) {    
-            return new ValidateSourceAccount.SourceAccountFailed("Not enough balance");
+            return new ValidateSourceAccount.SourceAccountFailed("Source has no balance");
         }
 
         if(obj.getString("currency").equals(currency)) {
-            return new ValidateSourceAccount.SourceAccountFailed("Currency Missmatch");
+            return new ValidateSourceAccount.SourceAccountFailed("Source Currency Missmatch");
         }
-        return new ValidateSourceAccount.SourceAccountValidated(accountId);
+        return new ValidateSourceAccount.SourceAccountValidated(obj.getString("customer_id"));
     }
 }

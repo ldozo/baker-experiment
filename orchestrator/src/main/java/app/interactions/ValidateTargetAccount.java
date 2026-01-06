@@ -7,7 +7,7 @@ import com.ing.baker.recipe.annotations.RequiresIngredient;
 
 public interface ValidateTargetAccount {
     interface AccountValidationResult {}
-    record TargetAccountValidated(String id) implements AccountValidationResult {};
+    record TargetAccountValidated(String targetCustomerId) implements AccountValidationResult {};
     record TargetAccountFailed(String reason) implements AccountValidationResult {};
 
     @FiresEvent(oneOf = { TargetAccountValidated.class, TargetAccountFailed.class })
