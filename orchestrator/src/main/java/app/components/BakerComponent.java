@@ -15,9 +15,12 @@ import app.interactions.impl.SendRegisterEmailImpl;
 public class BakerComponent {
     private final Baker _baker;
 
-    public BakerComponent (){
+    public BakerComponent (RegisterCustomerImpl rci,
+                            OpenAccountImpl oai,
+                            SendRegisterEmailImpl srei
+    ){
         _baker = InMemoryBaker.java(
-            List.of(new RegisterCustomerImpl(), new OpenAccountImpl(), new SendRegisterEmailImpl())
+            List.of(rci, oai, srei)
         );
     }
 

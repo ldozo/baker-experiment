@@ -6,14 +6,11 @@ import app.domain.EmailTemplate;
 import app.domain.SendEmailRequest;
 import app.repository.EmailLogRepository;
 import app.services.MailService;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/email")

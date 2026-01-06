@@ -1,5 +1,5 @@
 package app.interactions;
 
-public class ValidateTransaction {
+public interface ValidateTransaction {
 
 }

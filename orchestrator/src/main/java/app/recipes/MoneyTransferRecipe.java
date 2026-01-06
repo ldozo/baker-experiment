@@ -11,8 +11,8 @@ import com.ing.baker.recipe.javadsl.Recipe;
 
 import app.components.BakerComponent;
 import app.ingredients.MoneyTransferRequested;
-import app.interactions.OpenAccount;
-import app.interactions.RegisterCustomer;
+import app.interactions.CreditAccount;
+import app.interactions.DebitAccount;
 import app.interactions.ValidateSourceAccount;
 import app.interactions.ValidateSourceCustomer;
 import app.interactions.ValidateTargetAccount;
@@ -26,23 +26,28 @@ public class MoneyTransferRecipe {
     private static final Recipe _recipe = new Recipe("money-transfer-recipe")
                         .withSensoryEvent(MoneyTransferRequested.class)
                         .withInteractions(
-                            InteractionDescriptor.of(RegisterCustomer.class)
-                                                     .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateSourceCustomer.class)
-                                                     .withRequiredEvent(RegisterCustomer.CustomerRegistered.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateSourceAccount.class)
-                                                     .withRequiredEvent(OpenAccount.AccountOpened.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateTargetCustomer.class)
-                                                     .withRequiredEvent(OpenAccount.AccountOpened.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateTargetAccount.class)
-                                                     .withRequiredEvent(OpenAccount.AccountOpened.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateTransaction.class)
-                                                     .withRequiredEvent(OpenAccount.AccountOpened.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
+                                                     .withMaximumInteractionCount(1),
+                            InteractionDescriptor.of(DebitAccount.class)
+                                                     .withRequiredEvent(MoneyTransferRequested.class)
+                                                     .withMaximumInteractionCount(1),
+                            InteractionDescriptor.of(CreditAccount.class)
+                                                     .withRequiredEvent(null)
                                                      .withMaximumInteractionCount(1)
+
                         );
                         
     private final BakerComponent _baker;

@@ -1,5 +1,5 @@
 package app.interactions;
 
-public class ValidateTargetCustomer {
+public interface ValidateTargetCustomer {
 
 }
