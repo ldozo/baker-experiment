@@ -5,7 +5,6 @@ import com.ing.baker.recipe.annotations.RequiresIngredient;
 import com.ing.baker.recipe.javadsl.Interaction;
 
 public interface ValidateTargetCustomer extends Interaction {
-    interface CustomerValidationResult {}
 
     record TargetCustomerValidated() implements CustomerValidationResult {};
 

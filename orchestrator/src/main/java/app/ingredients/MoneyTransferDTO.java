@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MoneyTransferDTO {
-    String sourceAccountId;
-    String targetAccountId;
-    BigDecimal amount;
-    String currency;
+    private String sourceAccountId;
+    private String targetAccountId;
+    private BigDecimal amount;
+    private String currency;
 }

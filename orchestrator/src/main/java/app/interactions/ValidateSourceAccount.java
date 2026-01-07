@@ -7,7 +7,6 @@ import com.ing.baker.recipe.javadsl.Interaction;
 import app.ingredients.MoneyTransferDTO;
 
 public interface ValidateSourceAccount extends Interaction {
-    interface AccountValidationResult {}
     record SourceAccountValidated(String sourceCustomerId) implements AccountValidationResult {};
     record SourceAccountFailed(String reason) implements AccountValidationResult {};
 

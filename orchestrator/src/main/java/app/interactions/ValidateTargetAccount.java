@@ -7,7 +7,6 @@ import com.ing.baker.recipe.javadsl.Interaction;
 import app.ingredients.MoneyTransferDTO;
 
 public interface ValidateTargetAccount extends Interaction {
-    interface AccountValidationResult {}
     record TargetAccountValidated(String targetCustomerId) implements AccountValidationResult {};
     record TargetAccountFailed(String reason) implements AccountValidationResult {};
 

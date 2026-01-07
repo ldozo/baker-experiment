@@ -4,9 +4,7 @@ import com.ing.baker.recipe.annotations.FiresEvent;
 import com.ing.baker.recipe.annotations.RequiresIngredient;
 import com.ing.baker.recipe.javadsl.Interaction;
 
-public interface ValidateSourceCustomer extends Interaction {
-    interface CustomerValidationResult {}
-
+public interface ValidateSourceCustomer extends Interaction { 
     record SourceCustomerValidated() implements CustomerValidationResult {};
 
     record SourceCustomerFailed(String reason) implements CustomerValidationResult {};

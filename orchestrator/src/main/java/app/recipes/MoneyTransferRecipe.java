@@ -67,7 +67,7 @@ public class MoneyTransferRecipe {
             _compileRecipe = RecipeCompiler.compileRecipe(_recipe);
             _id = _baker.instance().addRecipe(_compileRecipe, true).get();
         } catch (InterruptedException | ExecutionException e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 

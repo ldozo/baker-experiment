@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import app.ingredients.MoneyTransferDTO;
+import app.interactions.AccountValidationResult;
 import app.interactions.ValidateTargetAccount;
 import app.repository.AccountRepo;
 

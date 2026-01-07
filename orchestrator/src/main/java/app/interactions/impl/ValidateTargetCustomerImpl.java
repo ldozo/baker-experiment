@@ -3,6 +3,7 @@ package app.interactions.impl;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import app.interactions.CustomerValidationResult;
 import app.interactions.ValidateTargetCustomer;
 import app.repository.CustomerRepo;
 

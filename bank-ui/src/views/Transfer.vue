@@ -352,7 +352,6 @@ const sendMoney = async () => {
   }
 
   const payload = {
-    // NOTE: Adjust keys if your backend expects different field names
     sourceAccountId: sourceAccount.value.id,
     targetAccountId: targetAccount.value.id,
     amount: Number(amount.value),
@@ -360,7 +359,7 @@ const sendMoney = async () => {
 
   sending.value = true
   try {
-    await axios.post('http://localhost:8080/sendMoney', payload, {
+    await axios.post('http://localhost:8080/transfer', payload, {
       headers: { 'Content-Type': 'application/json' },
     })
     successMessage.value = 'Transfer successful.'

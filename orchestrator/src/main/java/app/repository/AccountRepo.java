@@ -12,11 +12,11 @@ import app.http.OpenAccountRequest;
 
 @Repository
 public class AccountRepo {
-    private static final String _endpoint = "http://localhost:8082/customers";
+    private static final String _endpoint = "http://localhost:8082/accounts";
     
     public HttpResponse<String> post(String customerId, String accountName) {
         var body = JSONing.toString(new OpenAccountRequest(accountName, "TRY", customerId));
-        var request = HttpRequest.newBuilder(URI.create(_endpoint + "accounts"))
+        var request = HttpRequest.newBuilder(URI.create(_endpoint))
                                  .header("Content-Type", "application/json")
                                  .POST(HttpRequest.BodyPublishers.ofString(body))
                                  .build();
