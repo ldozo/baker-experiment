@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import com.ing.baker.runtime.inmemory.InMemoryBaker;
 import com.ing.baker.runtime.javadsl.Baker;
 
+import app.interactions.impl.CreditAccountImpl;
+import app.interactions.impl.DebitAccountImpl;
 import app.interactions.impl.OpenAccountImpl;
 import app.interactions.impl.RegisterCustomerImpl;
 import app.interactions.impl.SendRegisterEmailImpl;
@@ -27,10 +29,12 @@ public class BakerComponent {
                             ValidateSourceCustomerImpl vsaci,
                             ValidateTargetAccountImpl vtai,
                             ValidateTargetCustomerImpl vtci,
-                            ValidateTransactionImpl vti
+                            ValidateTransactionImpl vti,
+                            DebitAccountImpl dai,
+                            CreditAccountImpl cai
     ){
         _baker = InMemoryBaker.java(
-            List.of(rci, oai, srei, vsai, vsaci, vtai, vtci, vti)
+            List.of(rci, oai, srei, vsai, vsaci, vtai, vtci, vti, dai, cai)
         );
     }
 

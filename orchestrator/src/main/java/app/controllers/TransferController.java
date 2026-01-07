@@ -35,7 +35,6 @@ public class TransferController {
         _baker = baker;
         _recipe = recipe;
     }
-
         
     @PostMapping("/transfer")
     public ResponseEntity<Map<String, Object>> register(@RequestBody MoneyTransferDTO request) throws InterruptedException, ExecutionException {
