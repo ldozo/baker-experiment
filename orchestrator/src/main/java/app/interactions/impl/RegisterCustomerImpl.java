@@ -3,7 +3,7 @@ package app.interactions.impl;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import app.ingredients.Customer;
+import app.ingredients.CustomerDTO;
 import app.interactions.RegisterCustomer;
 import app.repository.CustomerRepo;
  
@@ -17,7 +17,7 @@ public class RegisterCustomerImpl implements RegisterCustomer {
     }
 
     @Override
-    public RegisterResult apply(Customer customer) {
+    public RegisterResult apply(CustomerDTO customer) {
         
         try {
             var response = _repo.post(customer);

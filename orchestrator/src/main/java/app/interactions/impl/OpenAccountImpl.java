@@ -3,7 +3,7 @@ package app.interactions.impl;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import app.ingredients.Customer;
+import app.ingredients.CustomerDTO;
 import app.interactions.OpenAccount;
 import app.repository.AccountRepo;
 
@@ -18,7 +18,7 @@ public class OpenAccountImpl implements OpenAccount {
     }
 
     @Override
-    public OpenAccountResult apply(String customerId, Customer customer) {
+    public OpenAccountResult apply(String customerId, CustomerDTO customer) {
         var accountName = customerId + "-" + "TRY";
         
         try {

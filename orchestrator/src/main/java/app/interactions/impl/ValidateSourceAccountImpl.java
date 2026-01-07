@@ -1,11 +1,11 @@
 package app.interactions.impl;
 
-import java.math.BigDecimal;
 import java.net.http.HttpResponse;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import app.ingredients.MoneyTransferDTO;
 import app.interactions.ValidateSourceAccount;
 import app.repository.AccountRepo;
 
@@ -19,10 +19,10 @@ public class ValidateSourceAccountImpl implements ValidateSourceAccount {
     }
 
     @Override
-    public AccountValidationResult apply(String accountId, BigDecimal amount, String currency) {
+    public AccountValidationResult apply(MoneyTransferDTO transfer) {
         HttpResponse<String> response;
         try {
-            response = _repo.get(accountId);
+            response = _repo.get(transfer.getSourceAccountId());
         } catch (Throwable e) { return new ValidateSourceAccount.SourceAccountFailed(e.getMessage());}
 
         var obj = new JSONObject(response.body());
@@ -30,11 +30,11 @@ public class ValidateSourceAccountImpl implements ValidateSourceAccount {
             return new ValidateSourceAccount.SourceAccountFailed(obj.getString("error"));
         }
 
-        if(obj.getBigDecimal("balance").compareTo(amount) < 0) {    
+        if(obj.getBigDecimal("balance").compareTo(transfer.getAmount()) < 0) {    
             return new ValidateSourceAccount.SourceAccountFailed("Source has no balance");
         }
 
-        if(obj.getString("currency").equals(currency)) {
+        if(obj.getString("currency").equals(transfer.getCurrency())) {
             return new ValidateSourceAccount.SourceAccountFailed("Source Currency Missmatch");
         }
         return new ValidateSourceAccount.SourceAccountValidated(obj.getString("customer_id"));

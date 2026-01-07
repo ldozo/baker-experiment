@@ -1,4 +1,4 @@
-package app.ingredients;
+package app.http;
 
 import java.util.Map;
 

@@ -2,14 +2,15 @@ package app.interactions;
 
 import com.ing.baker.recipe.annotations.FiresEvent;
 import com.ing.baker.recipe.annotations.RequiresIngredient;
+import com.ing.baker.recipe.javadsl.Interaction;
 
-public interface ValidateTargetCustomer {
+public interface ValidateTargetCustomer extends Interaction {
     interface CustomerValidationResult {}
 
-    record SourceCustomerValidated() implements CustomerValidationResult {};
+    record TargetCustomerValidated() implements CustomerValidationResult {};
 
-    record SourceCustomerFailed(String reason) implements CustomerValidationResult {};
+    record TargetCustomerFailed(String reason) implements CustomerValidationResult {};
 
-    @FiresEvent(oneOf = { SourceCustomerValidated.class, SourceCustomerFailed.class })
+    @FiresEvent(oneOf = { TargetCustomerValidated.class, TargetCustomerFailed.class })
     CustomerValidationResult apply(@RequiresIngredient("targetCustomerId") String accountId);
 }

@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import org.springframework.stereotype.Repository;
 
 import app.components.JSONing;
-import app.ingredients.SendEmailRequest;
+import app.http.SendEmailRequest;
 
 @Repository
 public class EmailRepo {

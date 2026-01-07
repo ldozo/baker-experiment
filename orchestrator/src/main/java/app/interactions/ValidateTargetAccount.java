@@ -1,17 +1,16 @@
 package app.interactions;
-
-import java.math.BigDecimal;
-
+ 
 import com.ing.baker.recipe.annotations.FiresEvent;
 import com.ing.baker.recipe.annotations.RequiresIngredient;
+import com.ing.baker.recipe.javadsl.Interaction;
 
-public interface ValidateTargetAccount {
+import app.ingredients.MoneyTransferDTO;
+
+public interface ValidateTargetAccount extends Interaction {
     interface AccountValidationResult {}
     record TargetAccountValidated(String targetCustomerId) implements AccountValidationResult {};
     record TargetAccountFailed(String reason) implements AccountValidationResult {};
 
     @FiresEvent(oneOf = { TargetAccountValidated.class, TargetAccountFailed.class })
-    AccountValidationResult apply(@RequiresIngredient("targetAccountId") String accountId,
-                                  @RequiresIngredient("amount") BigDecimal amount,
-                                  @RequiresIngredient("currency") String currency);
+    AccountValidationResult apply(@RequiresIngredient("transfer") MoneyTransferDTO transfer);
 }

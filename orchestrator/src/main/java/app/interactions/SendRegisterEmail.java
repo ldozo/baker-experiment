@@ -4,7 +4,7 @@ import com.ing.baker.recipe.annotations.FiresEvent;
 import com.ing.baker.recipe.annotations.RequiresIngredient;
 import com.ing.baker.recipe.javadsl.Interaction;
 
-import app.ingredients.Customer;
+import app.ingredients.CustomerDTO;
  
 public interface SendRegisterEmail extends Interaction {
     interface EmailResult {}
@@ -12,5 +12,5 @@ public interface SendRegisterEmail extends Interaction {
     record EmailFailed(String reason) implements EmailResult {};
 
     @FiresEvent(oneOf = { EmailSent.class, EmailFailed.class })
-    EmailResult apply(@RequiresIngredient("customer") Customer customer);
+    EmailResult apply(@RequiresIngredient("customer") CustomerDTO customer);
 }

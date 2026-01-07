@@ -61,11 +61,11 @@ public class TransactionController {
         // Ensure account exists
         Account account = accountRepo.findById(input.getAccountId()).orElse(null);
         if (account == null) {
-            return ResponseEntity.notFound().build();
+             throw new RuntimeException("Invalid Account");
         }
         // Currency must match account
         if (!account.getCurrency().equalsIgnoreCase(input.getCurrency())) {
-            throw new RuntimeException("tx.currency.mismatch");
+            throw new RuntimeException("Currency Mismatch");
         }
         // Amount > 0 already validated by @DecimalMin
 
@@ -74,7 +74,7 @@ public class TransactionController {
             account.setBalance(account.getBalance().add(amount));
         } else { // CREDIT
             if (account.getBalance().compareTo(amount) < 0) {
-                throw new RuntimeException("tx.insufficientFunds");
+                throw new RuntimeException("Insufficient balance");
             }
             account.setBalance(account.getBalance().subtract(amount));
         }

@@ -1,6 +1,7 @@
-package app.ingredients;
+package app.http;
 
-public record OpenAccountRequest(
+public record OpenAccountResponse(
+    String id,
     String name, 
     String currency,
     String customerId

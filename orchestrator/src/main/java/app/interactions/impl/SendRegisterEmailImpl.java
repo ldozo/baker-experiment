@@ -5,8 +5,8 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import app.ingredients.Customer;
-import app.ingredients.SendEmailRequest; 
+import app.http.SendEmailRequest;
+import app.ingredients.CustomerDTO;
 import app.interactions.SendRegisterEmail;
 import app.repository.EmailRepo;
 
@@ -20,7 +20,7 @@ public class SendRegisterEmailImpl implements SendRegisterEmail {
     }
     
     @Override
-    public EmailResult apply(Customer customer) {
+    public EmailResult apply(CustomerDTO customer) {
         var body = toRequest(customer);
         try {
             var response = _repo.post(body);
@@ -35,7 +35,7 @@ public class SendRegisterEmailImpl implements SendRegisterEmail {
         }
     }
 
-    private SendEmailRequest toRequest(Customer customer) {
+    private SendEmailRequest toRequest(CustomerDTO customer) {
         var fields = Map.of("firstname", customer.getFirstname(), 
                             "lastname", customer.getLastname(),
                             "email", customer.getEmail());

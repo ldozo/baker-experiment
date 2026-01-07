@@ -8,7 +8,7 @@ import com.ing.baker.il.CompiledRecipe;
 import com.ing.baker.recipe.javadsl.InteractionDescriptor;
 import com.ing.baker.recipe.javadsl.Recipe;
 import app.components.BakerComponent;
-import app.ingredients.RegisterCustomerRequested;
+import app.ingredients.CustomerRegisterEvent;
 import app.interactions.OpenAccount;
 import app.interactions.RegisterCustomer;
 import app.interactions.SendRegisterEmail;
@@ -17,7 +17,7 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class RegisterCustomerRecipe {
     private static final Recipe _recipe = new Recipe("register-customer-recipe")
-                        .withSensoryEvent(RegisterCustomerRequested.class)
+                        .withSensoryEvent(CustomerRegisterEvent.class)
                         .withInteractions(
                             InteractionDescriptor.of(RegisterCustomer.class)
                                                      .withMaximumInteractionCount(1),

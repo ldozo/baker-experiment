@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RegisterCustomerRequested {
-    private Customer customer;
+public class CustomerRegisterEvent {
+    private CustomerDTO customer;
 }

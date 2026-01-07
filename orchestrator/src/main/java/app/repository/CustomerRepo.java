@@ -9,14 +9,14 @@ import java.net.http.HttpResponse;
 import org.springframework.stereotype.Repository;
 
 import app.components.JSONing;
-import app.ingredients.Customer;
+import app.ingredients.CustomerDTO;
 
 @Repository
 public class CustomerRepo {
     private static final String _endpoint = "http://localhost:8081/customers";
    
 
-    public HttpResponse<String> post(Customer customer) {
+    public HttpResponse<String> post(CustomerDTO customer) {
         var body = JSONing.toString(customer);
         var request = HttpRequest.newBuilder(URI.create(_endpoint))
                                  .header("Content-Type", "application/json")

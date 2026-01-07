@@ -20,14 +20,14 @@ public class ValidateTargetCustomerImpl implements ValidateTargetCustomer {
         var response = _customers.get(customerId);
         var customer = new JSONObject(response.body());
         if(response.statusCode() < 200 || response.statusCode() >= 300) {
-            return new ValidateTargetCustomer.SourceCustomerFailed(customer.getString("error"));
+            return new ValidateTargetCustomer.TargetCustomerFailed(customer.getString("error"));
         }
 
         if(!customer.getString("status").equals("active")) {
-            return new ValidateTargetCustomer.SourceCustomerFailed("Source customer has invalid status");
+            return new ValidateTargetCustomer.TargetCustomerFailed("Source customer has invalid status");
         }
 
-        return new ValidateTargetCustomer.SourceCustomerValidated();
+        return new ValidateTargetCustomer.TargetCustomerValidated();
     }
    
 }

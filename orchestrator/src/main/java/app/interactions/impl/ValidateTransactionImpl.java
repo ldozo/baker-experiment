@@ -4,17 +4,18 @@ import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
 
+import app.ingredients.MoneyTransferDTO;
 import app.interactions.ValidateTransaction;
 
 @Service
 public class ValidateTransactionImpl implements ValidateTransaction {
 
     @Override
-    public TransactionValidationResult apply(BigDecimal amount, String currency) {
-        if(!currency.equals("try")) {
+    public TransactionValidationResult apply(MoneyTransferDTO transfer) {
+        if(!transfer.getCurrency().equals("try")) {
             return new ValidateTransaction.TransactionFailed("Currency not allowed to transfer");
         }
-        if(amount.compareTo(BigDecimal.ZERO) < 1) {
+        if(transfer.getAmount().compareTo(BigDecimal.ZERO) < 1) {
             return new ValidateTransaction.TransactionFailed("Invalid amount");
         }
 

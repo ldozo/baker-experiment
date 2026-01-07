@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoneyTransferRequested {
+public class MoneyTransferDTO {
     String sourceAccountId;
     String targetAccountId;
     BigDecimal amount;

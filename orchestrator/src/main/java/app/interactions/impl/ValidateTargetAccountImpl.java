@@ -1,11 +1,11 @@
 package app.interactions.impl;
 
-import java.math.BigDecimal;
 import java.net.http.HttpResponse;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import app.ingredients.MoneyTransferDTO;
 import app.interactions.ValidateTargetAccount;
 import app.repository.AccountRepo;
 
@@ -18,10 +18,10 @@ public class ValidateTargetAccountImpl implements ValidateTargetAccount {
     }
 
     @Override
-    public AccountValidationResult apply(String accountId, BigDecimal amount, String currency) {
+    public AccountValidationResult apply(MoneyTransferDTO transfer) {
         HttpResponse<String> response;
         try {
-            response = _repo.get(accountId);
+            response = _repo.get(transfer.getTargetAccountId());
         } catch (Throwable e) {
             return new ValidateTargetAccount.TargetAccountFailed(e.getMessage());
         }
@@ -31,7 +31,7 @@ public class ValidateTargetAccountImpl implements ValidateTargetAccount {
             return new ValidateTargetAccount.TargetAccountFailed(obj.getString("error"));
         }
 
-        if (obj.getString("currency").equals(currency)) {
+        if (obj.getString("currency").equals(transfer.getCurrency())) {
             return new ValidateTargetAccount.TargetAccountFailed("Target Currency Missmatch");
         }
         return new ValidateTargetAccount.TargetAccountValidated(obj.getString("customer_id"));
