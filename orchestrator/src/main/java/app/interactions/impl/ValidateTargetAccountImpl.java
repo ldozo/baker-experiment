@@ -31,7 +31,7 @@ public class ValidateTargetAccountImpl implements ValidateTargetAccount {
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
             return new ValidateTargetAccount.TargetAccountFailed(transfer.getTargetAccountId(), obj.getString("error"));
         }
-        return new ValidateTargetAccount.TargetAccountValidated(obj.getString("customer_id"));
+        return new ValidateTargetAccount.TargetAccountValidated(obj.getString("customerId"));
     }
 
 }

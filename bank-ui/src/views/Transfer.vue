@@ -44,6 +44,9 @@
                       <span class="text-sm text-gray-800">
                         {{ fullName(c) }}
                       </span>
+                      <span class="rounded-full px-2 py-1 text-xs font-medium uppercase tracking-wide" :class="statusPillClass(c.status)">
+                        {{ c.status }}
+                      </span>
                       <span
                         v-if="sourceCustomer?.id === c.id"
                         class="ml-2 inline-flex items-center rounded bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700"
@@ -125,6 +128,9 @@
                     >
                       <span class="text-sm text-gray-800">
                         {{ fullName(c) }}
+                      </span>
+                      <span class="rounded-full px-2 py-1 text-xs font-medium uppercase tracking-wide" :class="statusPillClass(c.status)">
+                        {{ c.status }}
                       </span>
                       <span
                         v-if="targetCustomer?.id === c.id"
@@ -233,7 +239,7 @@
       </div>
     </div>
     <div class="bg-white border rounded-lg mt-2 overflow-x-hidden ">
-       <MyGraphvizRenderer :value="lastResponse.visual"/>
+       <MyGraphvizRenderer :value="lastResponse?.visual"/>
     </div>
   </div>
 </template>
@@ -281,6 +287,20 @@ const filteredCustomers = (query) => {
   return customers.value.filter(c =>
     fullName(c).toLowerCase().includes(q)
   )
+}
+
+function statusPillClass(status) {
+  switch (status) {
+    case 'active':
+      return 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20'
+    case 'underage':
+      return 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20'
+    case 'deceased':
+      return 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20'
+    case 'initial':
+    default:
+      return 'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-500/20'
+  }
 }
 
 const accountLabel = (a) => {
@@ -380,22 +400,22 @@ const sendMoney = async () => {
   }
 
   sending.value = true
-  try {
-    lastRequest.value = payload
-    response = await axios.post('http://localhost:8080/transfer', payload, {
-      headers: { 'Content-Type': 'application/json' },
-    })
-    lastResponse.value = response.body
+  lastRequest.value = payload
+  axios.post('http://localhost:8080/transfer', payload, {
+    headers: { 'Content-Type': 'application/json' },
+  }).then(response => {
+    lastResponse.value = response.data
     successMessage.value = 'Transfer successful.'
     // Optional: clear amount & keep selections
     amount.value = null
-  } catch (err) {
+    sending.value = false
+  }).catch(err => {
     console.error(err)
     submitError.value = parseErrorMessage(err) || 'Transfer failed. Please try again.'
     lastResponse.value = err.response.data
-  } finally {
     sending.value = false
-  }
+  })
+   
 }
 
 const parseErrorMessage = (err) => {

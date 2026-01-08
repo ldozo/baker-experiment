@@ -34,6 +34,6 @@ public class ValidateSourceAccountImpl implements ValidateSourceAccount {
         if(obj.getBigDecimal("balance").compareTo(transfer.getAmount()) < 0) {    
             return new ValidateSourceAccount.SourceAccountFailed(transfer.getSourceAccountId(), "Source has no balance");
         }
-        return new ValidateSourceAccount.SourceAccountValidated(obj.getString("customer_id"));
+        return new ValidateSourceAccount.SourceAccountValidated(obj.getString("customerId"));
     }
 }

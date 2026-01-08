@@ -45,13 +45,13 @@ public class TransactionController {
 
     @PostMapping("/debit")
     @Transactional
-    public ResponseEntity<?> debit(@Valid @RequestBody Transaction input) {
+    public ResponseEntity<?> debit(@RequestBody Transaction input) {
         return apply(input, TransactionType.DEBIT);
     }
 
     @PostMapping("/credit")
     @Transactional
-    public ResponseEntity<?> credit(@Valid @RequestBody Transaction input) {
+    public ResponseEntity<?> credit(@RequestBody Transaction input) {
         return apply(input, TransactionType.CREDIT);
     }
 
@@ -63,14 +63,10 @@ public class TransactionController {
         if (account == null) {
              throw new RuntimeException("Invalid Account");
         }
-        // Currency must match account
-        if (!account.getCurrency().equalsIgnoreCase(input.getCurrency())) {
-            throw new RuntimeException("Currency Mismatch");
-        }
         // Amount > 0 already validated by @DecimalMin
 
         BigDecimal amount = input.getAmount();
-        if (type == TransactionType.DEBIT) {
+        if (type == TransactionType.CREDIT) {
             account.setBalance(account.getBalance().add(amount));
         } else { // CREDIT
             if (account.getBalance().compareTo(amount) < 0) {
@@ -81,7 +77,8 @@ public class TransactionController {
 
         // Persist account update and transaction
         accountRepo.save(account);
-        input.setType(type); // ignore incoming type, enforce endpoint semantics
+        input.setType(type);
+        input.setCurrency(account.getCurrency());
         Transaction saved = txRepo.save(input);
 
         return ResponseEntity.created(URI.create("/transactions/" + saved.getId())).body(saved);

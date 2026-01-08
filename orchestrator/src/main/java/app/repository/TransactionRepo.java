@@ -18,7 +18,7 @@ public class TransactionRepo {
         var reqPayload = new JSONObject();
         reqPayload.put("amount", amount);
         reqPayload.put("accountId", accountId);
-        var url = URI.create(_endpoint + "/transactions/" + direction); 
+        var url = URI.create(_endpoint + "/" + direction); 
         var request = HttpRequest.newBuilder(url)
                                  .header("Content-Type", "application/json")
                                  .POST(HttpRequest.BodyPublishers.ofString(reqPayload.toString()))

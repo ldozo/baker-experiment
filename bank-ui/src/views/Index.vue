@@ -6,6 +6,7 @@
         <div class="p-3 grid content-center ">
             <a href="/register"><div class="hover:bg-emerald-300 hover:cursor-pointer p-3">Register</div></a>
             <a href="/profile"><div class="hover:bg-emerald-300 hover:cursor-pointer p-3">Profile</div></a>
+            <a href="/credit"><div class="hover:bg-emerald-300 hover:cursor-pointer p-3">Credit</div></a>
             <a href="/transfer"><div class="hover:bg-emerald-300 hover:cursor-pointer p-3">Money Transfer</div></a>
         </div>
          <div>

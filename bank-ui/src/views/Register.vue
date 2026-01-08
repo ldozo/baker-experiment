@@ -1,155 +1,120 @@
-
 <template>
-  <div class="bg-white p-6 border rounded-lg shadow container mx-auto my-10 px-4 gap-2">
-    <div class="w-full flex justify-end">
-      <router-link
-          to="/"
-          class="inline-flex items-center text-emerald-600 hover:text-emerald-700 text-sm font-medium"
-        >
+  <div class="grid gap-3">
+    <div class="bg-white p-6 border rounded-lg shadow">
+      <div class="w-full flex justify-end">
+        <router-link to="/"
+          class="inline-flex items-center text-emerald-600 hover:text-emerald-700 text-sm font-medium">
           ← Back to root
         </router-link>
-    </div>
-    <div class="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-2 items-start">
-      <!-- Left: Form card -->
-      <div class="bg-white border-gray-200 shadow-sm rounded-lg p-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-4">Register</h1>
-
-        <!-- Success / Error banners -->
-        <div v-if="successMessage" class="mb-4 p-3 rounded bg-emerald-100 text-emerald-800">
-          {{ successMessage }}
-        </div>
-        <div v-if="errorMessage" class="mb-4 p-3 rounded bg-red-100 text-red-800">
-          {{ errorMessage }}
-        </div>
-
-        <form
-          @submit.prevent="submit"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start content-start auto-rows-min"
-        >
-          <!-- First Name -->
-          <div class="self-start">
-            <label class="block text-gray-700 font-medium mb-1" for="firstname">First Name</label>
-            <input
-              id="firstname"
-              v-model.trim="form.firstname"
-              type="text"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              placeholder="John"
-            />
-            <p v-if="errors.firstname" class="mt-1 text-sm text-red-600">{{ errors.firstname }}</p>
-          </div>
-
-          <!-- Last Name -->
-          <div class="self-start">
-            <label class="block text-gray-700 font-medium mb-1" for="lastname">Last Name</label>
-            <input
-              id="lastname"
-              v-model.trim="form.lastname"
-              type="text"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              placeholder="Doe"
-            />
-            <p v-if="errors.lastname" class="mt-1 text-sm text-red-600">{{ errors.lastname }}</p>
-          </div>
-
-          <!-- Email -->
-          <div class="self-start">
-            <label class="block text-gray-700 font-medium mb-1" for="email">Email</label>
-            <input
-              id="email"
-              v-model.trim="form.email"
-              type="email"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              placeholder="john.doe@example.com"
-            />
-            <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
-          </div>
-
-          <!-- Age -->
-          <div class="self-start">
-            <label class="block text-gray-700 font-medium mb-1" for="age">Age</label>
-            <input
-              id="age"
-              v-model.number="form.age"
-              type="number"
-              min="0"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              placeholder="30"
-            />
-            <p v-if="errors.age" class="mt-1 text-sm text-red-600">{{ errors.age }}</p>
-          </div>
-
-          <!-- Nationality -->
-          <div class="md:col-span-2 self-start">
-            <label class="block text-gray-700 font-medium mb-1" for="nationality">Nationality</label>
-            <select
-              id="nationality"
-              v-model="form.nationality"
-              class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            >
-              <option disabled value="">Select nationality</option>
-              <option value="tr">Turkish</option>
-              <option value="usa">American</option>
-              <option value="gr">German</option>
-              <option value="fr">French</option>
-              <option value="br">British</option>
-              <option value="Other">Other</option>
-            </select>
-            <p v-if="errors.nationality" class="mt-1 text-sm text-red-600">{{ errors.nationality }}</p>
-          </div>
-
-          <!-- Submit -->
-          <div class="md:col-span-2 self-start">
-            <button
-              type="submit"
-              :disabled="submitting"
-              class="w-full bg-emerald-600 text-white font-semibold py-2 rounded hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              <span v-if="submitting">Submitting...</span>
-              <span v-else>Register</span>
-            </button>
-          </div>
-        </form>
       </div>
+      <div class="mx-auto max-w-5xl grid">
+        <!-- Left: Form card -->
+        <div class="bg-white border-gray-200 rounded-lg p-6">
+          <h1 class="text-2xl font-bold text-gray-900 mb-4">Register</h1>
 
-      <!-- Right: Request/Response inspector -->
-      <div class="p-6 border-gray-200 shadow-sm rounded-lg">
-        <div class="space-y-5" >
-          <!-- Request Body -->
-          <JsonViewer :value="lastRequest" 
-              :collapsible="true"
-              :initially-collapsed="false"
-              :sort-keys="true"
-              :indent="25"
-              :show-copy="true"
-              :quote-keys="true"
-          />
+          <!-- Success / Error banners -->
+          <div v-if="successMessage" class="mb-4 p-3 rounded bg-emerald-100 text-emerald-800">
+            {{ successMessage }}
+          </div>
+          <div v-if="errorMessage" class="mb-4 p-3 rounded bg-red-100 text-red-800">
+            {{ errorMessage }}
+          </div>
 
+          <form @submit.prevent="submit"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start content-start auto-rows-min">
+            <!-- First Name -->
+            <div class="self-start">
+              <label class="block text-gray-700 font-medium mb-1" for="firstname">First Name</label>
+              <input id="firstname" v-model.trim="form.firstname" type="text"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="John" />
+              <p v-if="errors.firstname" class="mt-1 text-sm text-red-600">{{ errors.firstname }}</p>
+            </div>
+
+            <!-- Last Name -->
+            <div class="self-start">
+              <label class="block text-gray-700 font-medium mb-1" for="lastname">Last Name</label>
+              <input id="lastname" v-model.trim="form.lastname" type="text"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="Doe" />
+              <p v-if="errors.lastname" class="mt-1 text-sm text-red-600">{{ errors.lastname }}</p>
+            </div>
+
+            <!-- Email -->
+            <div class="self-start">
+              <label class="block text-gray-700 font-medium mb-1" for="email">Email</label>
+              <input id="email" v-model.trim="form.email" type="email"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="john.doe@example.com" />
+              <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+            </div>
+
+            <!-- Age -->
+            <div class="self-start">
+              <label class="block text-gray-700 font-medium mb-1" for="age">Age</label>
+              <input id="age" v-model.number="form.age" type="number" min="0"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="30" />
+              <p v-if="errors.age" class="mt-1 text-sm text-red-600">{{ errors.age }}</p>
+            </div>
+
+            <!-- Nationality -->
+            <div class="md:col-span-2 self-start">
+              <label class="block text-gray-700 font-medium mb-1" for="nationality">Nationality</label>
+              <select id="nationality" v-model="form.nationality"
+                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option disabled value="">Select nationality</option>
+                <option value="tr">Turkish</option>
+                <option value="usa">American</option>
+                <option value="gr">German</option>
+                <option value="fr">French</option>
+                <option value="br">British</option>
+                <option value="Other">Other</option>
+              </select>
+              <p v-if="errors.nationality" class="mt-1 text-sm text-red-600">{{ errors.nationality }}</p>
+            </div>
+
+            <!-- Submit -->
+            <div class="md:col-span-2 self-start">
+              <button type="submit" :disabled="submitting"
+                class="w-full bg-emerald-600 text-white font-semibold py-2 rounded hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed">
+                <span v-if="submitting">Submitting...</span>
+                <span v-else>Register</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="p-6 bg-white shadow-sm border rounded-lg overflow-x-auto">
+      <div class="grid gap-2">
+        <div>
+
+          <h2>Request</h2>
+          <JsonViewer :value="lastRequest" :collapsible="true" :initially-collapsed="false" :sort-keys="true"
+            :show-copy="true" :quote-keys="true" />
+        </div>
+        <div>
+          <h2>Response</h2>
           <!-- Response Body -->
-          <JsonViewer :value="lastResponse"           
-              :collapsible="true"
-              :initially-collapsed="false"
-              :sort-keys="true"
-              :indent="25"
-              :show-copy="true"
-              :quote-keys="true"
-          />
-
-          <!-- Optional meta -->
-          <section class="flex grid-cols-2 gap-3">
-              <div>
-                  <p class="text-xs text-gray-500">Endpoint</p>
-                  <p class="text-sm font-mono truncate">POST {{ endpoint }}</p>
-                </div>
-                <div>
-                  <p class="text-xs text-gray-500">Status</p>
-                  <p class="text-sm font-mono">{{ statusText }}</p>
-                </div>
-          </section>
+          <JsonViewer :value="lastResponse" :collapsible="true" :initially-collapsed="false" :sort-keys="true"
+            :indent="25" :show-copy="true" :quote-keys="true" />
         </div>
+
+        <!-- Optional meta -->
+        <section class="flex grid-cols-2 gap-3">
+          <div>
+            <p class="text-xs text-gray-500">Endpoint</p>
+            <p class="text-sm font-mono truncate">POST {{ endpoint }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500">Status</p>
+            <p class="text-sm font-mono">{{ statusText }}</p>
+          </div>
+        </section>
       </div>
     </div>
-    <div class="bg-white w-full border-gray-200 shadow-sm rounded-lg border mt-2">
+    <div class="bg-white w-full border shadow-sm rounded-lg border overflow-x-auto">
       <MyGraphvizRenderer :value="lastResponse?.visual" />
     </div>
   </div>
@@ -161,7 +126,7 @@ import { reactive, ref, computed, onMounted } from 'vue'
 import * as d3 from 'd3'
 import 'd3-graphviz'
 import MyGraphvizRenderer from '@/components/MyGraphvizRenderer.vue'
-import JsonViewer from '@/components/JsonViewer.vue' 
+import JsonViewer from '@/components/JsonViewer.vue'
 
 const endpoint = 'http://localhost:8080/register'
 
@@ -196,7 +161,7 @@ const statusText = computed(() => {
   if (lastStatus.value === null) return '—'
   return String(lastStatus.value)
 })
- 
+
 async function copy(text: string) {
   try {
     await navigator.clipboard.writeText(text)
