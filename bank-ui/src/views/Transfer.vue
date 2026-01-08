@@ -1,11 +1,13 @@
 <template>
-  <div class="bg-white border rounded-lg p-6">
-    <div class="mx-auto max-w-7xl">
-      <h1 class="text-2xl font-semibold text-gray-800 mb-4">Money Transfer</h1>
+  <div class="grid  grid-cols-2 gap-2">
 
-      <!-- Status banners -->
-      <div v-if="globalError" class="mb-4 rounded-md bg-red-50 p-4 text-red-700">
-        {{ globalError }}
+  <div class="bg-white border rounded-lg p-6">
+      <div class="mx-auto max-w-7xl">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Money Transfer</h1>
+        
+        <!-- Status banners -->
+        <div v-if="globalError" class="mb-4 rounded-md bg-red-50 p-4 text-red-700">
+          {{ globalError }}
       </div>
       <div v-if="successMessage" class="mb-4 rounded-md bg-green-50 p-4 text-green-700">
         {{ successMessage }}
@@ -219,11 +221,32 @@
       </section>
     </div>
   </div>
+  <div class="bg-white border rounded-lg p-6 overflow-y-scroll">
+    <JsonViewer :value="lastRequest"           
+          :collapsible="true"
+          :initially-collapsed="false"
+          :sort-keys="true"
+          :indent="25"
+          :show-copy="true"
+          :quote-keys="true"
+      />
+      <JsonViewer :value="lastResponse"           
+          :collapsible="true"
+          :initially-collapsed="false"
+          :sort-keys="true"
+          :indent="25"
+          :show-copy="true"
+          :quote-keys="true"
+      />
+  </div>
+  
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import JsonViewer from '@/components/JsonViewer.vue'
 
 /** ---- State ---- */
 const customers = ref([])
@@ -250,6 +273,8 @@ const amount = ref(null)
 const amountError = ref('')
 const sending = ref(false)
 const submitError = ref('')
+const lastRequest = ref('')
+const lastResponse = ref('')
 
 /** ---- Helpers ---- */
 const fullName = (c) => `${c.firstname ?? ''} ${c.lastname ?? ''}`.trim() || `Customer #${c.id}`
@@ -352,6 +377,7 @@ const sendMoney = async () => {
   }
 
   const payload = {
+    // NOTE: Adjust keys if your backend expects different field names
     sourceAccountId: sourceAccount.value.id,
     targetAccountId: targetAccount.value.id,
     amount: Number(amount.value),
@@ -359,15 +385,18 @@ const sendMoney = async () => {
 
   sending.value = true
   try {
-    await axios.post('http://localhost:8080/transfer', payload, {
+    lastRequest.value = payload
+    response = await axios.post('http://localhost:8080/transfer', payload, {
       headers: { 'Content-Type': 'application/json' },
     })
+    lastResponse.value = response.body
     successMessage.value = 'Transfer successful.'
     // Optional: clear amount & keep selections
     amount.value = null
   } catch (err) {
     console.error(err)
     submitError.value = parseErrorMessage(err) || 'Transfer failed. Please try again.'
+    lastResponse.value = err.response.data
   } finally {
     sending.value = false
   }

@@ -14,9 +14,8 @@ import org.springframework.stereotype.Repository;
 public class TransactionRepo {
     private static final String _endpoint = "http://localhost:8082/transactions";
 
-    private HttpResponse<String> transaction(String direction, String accountId, BigDecimal amount, String currency) {
+    private HttpResponse<String> transaction(String direction, String accountId, BigDecimal amount) {
         var reqPayload = new JSONObject();
-        reqPayload.put("currency", currency);
         reqPayload.put("amount", amount);
         reqPayload.put("accountId", accountId);
         var url = URI.create(_endpoint + "/transactions/" + direction); 
@@ -31,11 +30,11 @@ public class TransactionRepo {
         }
     }
 
-    public HttpResponse<String> debit(String accountId, BigDecimal amount, String currency) {
-        return transaction("debit", accountId, amount, currency);
+    public HttpResponse<String> debit(String accountId, BigDecimal amount) {
+        return transaction("debit", accountId, amount);
     }
 
-    public HttpResponse<String> credit(String accountId, BigDecimal amount, String currency) {
-        return transaction("credit", accountId, amount, currency);
+    public HttpResponse<String> credit(String accountId, BigDecimal amount) {
+        return transaction("credit", accountId, amount);
     }
 }

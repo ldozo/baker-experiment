@@ -116,38 +116,24 @@
       <div class="p-6 border-gray-200 shadow-sm rounded-lg">
         <div class="space-y-5" >
           <!-- Request Body -->
-          <section>
-            <div class="flex items-center justify-between mb-2 ">
-              <span class="text-gray-700 font-medium">Request body</span>
-              <button
-                v-if="lastRequest"
-                @click="copy(formatJson(lastRequest))"
-                class="text-xs text-emerald-700 hover:underline"
-              >
-                Copy
-              </button>
-            </div>
-            <pre
-              class="bg-gray-50 border border-gray-200 rounded p-3 text-sm font-mono whitespace-pre overflow-auto max-h-64"
-            >{{ formatJson(lastRequest) }}</pre>
-          </section>
+          <JsonViewer :value="lastRequest" 
+              :collapsible="true"
+              :initially-collapsed="false"
+              :sort-keys="true"
+              :indent="25"
+              :show-copy="true"
+              :quote-keys="true"
+          />
 
           <!-- Response Body -->
-          <section>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-gray-700 font-medium">Response body</span>
-              <button
-                v-if="lastResponse"
-                @click="copy(formatJson(lastResponse))"
-                class="text-xs text-emerald-700 hover:underline"
-              >
-                Copy
-              </button>
-            </div>
-            <pre
-              class="bg-gray-50 border border-gray-200 rounded p-3 text-sm font-mono whitespace-pre overflow-auto max-h-64"
-            >{{ formatJson(lastResponse) }}</pre>
-          </section>
+          <JsonViewer :value="lastResponse"           
+              :collapsible="true"
+              :initially-collapsed="false"
+              :sort-keys="true"
+              :indent="25"
+              :show-copy="true"
+              :quote-keys="true"
+          />
 
           <!-- Optional meta -->
           <section class="flex grid-cols-2 gap-3">
@@ -175,6 +161,7 @@ import { reactive, ref, computed, onMounted } from 'vue'
 import * as d3 from 'd3'
 import 'd3-graphviz'
 import MyGraphvizRenderer from '@/components/MyGraphvizRenderer.vue'
+import JsonViewer from '@/components/JsonViewer.vue' 
 
 const endpoint = 'http://localhost:8080/register'
 
@@ -209,16 +196,7 @@ const statusText = computed(() => {
   if (lastStatus.value === null) return '—'
   return String(lastStatus.value)
 })
-
-function formatJson(obj: any) {
-  try {
-    if (obj === null || obj === undefined) return '—'
-    return JSON.stringify(obj, null, 2)
-  } catch {
-    return String(obj)
-  }
-}
-
+ 
 async function copy(text: string) {
   try {
     await navigator.clipboard.writeText(text)

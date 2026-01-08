@@ -24,16 +24,12 @@ public class ValidateTargetAccountImpl implements ValidateTargetAccount {
         try {
             response = _repo.get(transfer.getTargetAccountId());
         } catch (Throwable e) {
-            return new ValidateTargetAccount.TargetAccountFailed(e.getMessage());
+            return new ValidateTargetAccount.TargetAccountFailed(transfer.getTargetAccountId(), e.getMessage());
         }
 
         var obj = new JSONObject(response.body());
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
-            return new ValidateTargetAccount.TargetAccountFailed(obj.getString("error"));
-        }
-
-        if (obj.getString("currency").equals(transfer.getCurrency())) {
-            return new ValidateTargetAccount.TargetAccountFailed("Target Currency Missmatch");
+            return new ValidateTargetAccount.TargetAccountFailed(transfer.getTargetAccountId(), obj.getString("error"));
         }
         return new ValidateTargetAccount.TargetAccountValidated(obj.getString("customer_id"));
     }

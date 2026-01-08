@@ -18,7 +18,7 @@ public class CreditAccountImpl implements CreditAccount {
 
     @Override
     public CreditAccountResult apply(MoneyTransferDTO transfer) {
-        var response = _repo.credit(transfer.getTargetAccountId(), transfer.getAmount(), transfer.getCurrency());
+        var response = _repo.credit(transfer.getTargetAccountId(), transfer.getAmount());
         var obj = new JSONObject(response.body());
         if(response.statusCode() < 200 || response.statusCode() >= 300) {
             return new CreditAccount.CreditFailed(obj.getString("error"));

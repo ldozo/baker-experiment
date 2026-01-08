@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ing.baker.runtime.javadsl.EventInstance;
+import com.ing.baker.types.Value;
+
 import app.components.BakerComponent;
 import app.ingredients.CustomerDTO;
 import app.ingredients.CustomerRegisterEvent;
@@ -51,7 +53,8 @@ public class OnboardingController {
                                 .getRecipeInstanceState(recipeInstanceId)
                                 .orTimeout(3, TimeUnit.SECONDS)
                                 .join();
-        body.put("ingredients", state.getIngredients());
+        var ings = writeIngredients(state.getIngredients());
+        body.put("ingredients", ings);
         body.put("visual", _recipe.compiled().getRecipeVisualization());
 
         final var events = result.getEventNames();
@@ -64,5 +67,14 @@ public class OnboardingController {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(body);
         }
         return ResponseEntity.ok(body);
+    }
+
+    
+    private HashMap<String,Object> writeIngredients(Map<String,Value> ingredients) {
+        var ings = new HashMap<String, Object>();
+        ingredients.forEach((key, val) -> {
+            ings.put(key, val.toString());
+        });
+        return ings;
     }
 }

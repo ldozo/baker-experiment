@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ing.baker.runtime.javadsl.EventInstance;
+import com.ing.baker.types.Value;
+
 import app.components.BakerComponent;
+import app.components.JSONing;
 import app.ingredients.MoneyTransferEvent;
 import app.ingredients.MoneyTransferDTO;
 import app.interactions.CreditAccount;
@@ -37,7 +40,7 @@ public class TransferController {
     }
         
     @PostMapping("/transfer")
-    public ResponseEntity<Map<String, Object>> register(@RequestBody MoneyTransferDTO request) throws InterruptedException, ExecutionException {
+    public ResponseEntity<Map<String, Object>> transfer(@RequestBody MoneyTransferDTO request) throws InterruptedException, ExecutionException {
         final var recipeInstanceId = UUID.randomUUID().toString();
 
         final var event = new MoneyTransferEvent(request);
@@ -55,7 +58,8 @@ public class TransferController {
                                 .getRecipeInstanceState(recipeInstanceId)
                                 .orTimeout(3, TimeUnit.SECONDS)
                                 .join();
-        responseBody.put("ingredients", state.getIngredients());
+        var ings = writeIngredients(state.getIngredients());
+        responseBody.put("ingredients", ings);
         responseBody.put("visual", _recipe.compiled().getRecipeVisualization());
 
         final var events = result.getEventNames();
@@ -75,5 +79,13 @@ public class TransferController {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(responseBody);
         }
         return ResponseEntity.ok(responseBody);
+    }
+
+    private HashMap<String,Object> writeIngredients(Map<String,Value> ingredients) {
+        var ings = new HashMap<String, Object>();
+        ingredients.forEach((key, val) -> {
+            ings.put(key, val.toString());
+        });
+        return ings;
     }
 }

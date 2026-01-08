@@ -13,5 +13,4 @@ public class MoneyTransferDTO {
     private String sourceAccountId;
     private String targetAccountId;
     private BigDecimal amount;
-    private String currency;
 }

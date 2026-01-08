@@ -10,7 +10,6 @@ import com.ing.baker.recipe.javadsl.InteractionDescriptor;
 import com.ing.baker.recipe.javadsl.Recipe;
 
 import app.components.BakerComponent;
-import app.ingredients.MoneyTransferDTO;
 import app.ingredients.MoneyTransferEvent;
 import app.interactions.CreditAccount;
 import app.interactions.DebitAccount;
@@ -34,7 +33,7 @@ public class MoneyTransferRecipe {
                                                      .withRequiredEvent(ValidateSourceAccount.SourceAccountValidated.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateTargetAccount.class)
-                                                     .withRequiredEvent(MoneyTransferDTO.class)
+                                                     .withRequiredEvent(MoneyTransferEvent.class)
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(ValidateTargetCustomer.class)
                                                      .withRequiredEvent(ValidateTargetAccount.TargetAccountValidated.class)

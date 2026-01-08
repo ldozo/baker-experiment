@@ -18,7 +18,7 @@ public class DebitAccountImpl implements DebitAccount {
 
     @Override
     public DebitAccountResult apply(MoneyTransferDTO transfer) {
-        var response = _repo.debit(transfer.getSourceAccountId(), transfer.getAmount(), transfer.getCurrency());
+        var response = _repo.debit(transfer.getSourceAccountId(), transfer.getAmount());
         var obj = new JSONObject(response.body());
         if(response.statusCode() < 200 || response.statusCode() >= 300) {
             return new DebitAccount.DebitFailed(obj.getString("error"));

@@ -12,9 +12,6 @@ public class ValidateTransactionImpl implements ValidateTransaction {
 
     @Override
     public TransactionValidationResult apply(MoneyTransferDTO transfer) {
-        if(!transfer.getCurrency().equals("try")) {
-            return new ValidateTransaction.TransactionFailed("Currency not allowed to transfer");
-        }
         if(transfer.getAmount().compareTo(BigDecimal.ZERO) < 1) {
             return new ValidateTransaction.TransactionFailed("Invalid amount");
         }

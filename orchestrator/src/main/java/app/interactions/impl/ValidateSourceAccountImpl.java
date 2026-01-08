@@ -24,19 +24,15 @@ public class ValidateSourceAccountImpl implements ValidateSourceAccount {
         HttpResponse<String> response;
         try {
             response = _repo.get(transfer.getSourceAccountId());
-        } catch (Throwable e) { return new ValidateSourceAccount.SourceAccountFailed(e.getMessage());}
+        } catch (Throwable e) { return new ValidateSourceAccount.SourceAccountFailed(transfer.getSourceAccountId(), e.getMessage());}
 
         var obj = new JSONObject(response.body());
         if(!(response.statusCode() >= 200 && response.statusCode() < 300)) {
-            return new ValidateSourceAccount.SourceAccountFailed(obj.getString("error"));
+            return new ValidateSourceAccount.SourceAccountFailed(transfer.getSourceAccountId(), obj.getString("error"));
         }
 
         if(obj.getBigDecimal("balance").compareTo(transfer.getAmount()) < 0) {    
-            return new ValidateSourceAccount.SourceAccountFailed("Source has no balance");
-        }
-
-        if(obj.getString("currency").equals(transfer.getCurrency())) {
-            return new ValidateSourceAccount.SourceAccountFailed("Source Currency Missmatch");
+            return new ValidateSourceAccount.SourceAccountFailed(transfer.getSourceAccountId(), "Source has no balance");
         }
         return new ValidateSourceAccount.SourceAccountValidated(obj.getString("customer_id"));
     }

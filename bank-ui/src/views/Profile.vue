@@ -304,8 +304,7 @@ async function loadCustomers() {
 }
 
 onMounted(loadCustomers)
-
-// Update (local state; optional server PUT)
+ 
 async function savePerson() {
   if (!isEditing.value || selectedId.value == null) return
 
@@ -337,26 +336,6 @@ async function savePerson() {
         }
       : p
   )
-
-  // Optional: PUT to server
-  // try {
-  //   await fetch(`http://localhost:8081/customers/${selectedId.value}`, {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       firstname: form.value.firstname.trim(),
-  //       lastname: form.value.lastname.trim(),
-  //       status: form.value.status,
-  //       email: form.value.email.trim() || null,
-  //       age: form.value.age ?? null,
-  //       nationality: form.value.nationality.trim() || null,
-  //     }),
-  //   })
-  //   showBanner('Person updated')
-  // } catch (e) {
-  //   console.error(e)
-  //   showBanner('Update failed (local changes applied)')
-  // }
 
   showBanner('Person updated')
 }

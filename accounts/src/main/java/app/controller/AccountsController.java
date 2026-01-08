@@ -27,7 +27,7 @@ public class AccountsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> get(@PathVariable String id) {
+    public ResponseEntity<Account> get(@PathVariable("id") String id) {
         return repo.findById(id).map(ResponseEntity::ok)
                    .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -52,7 +52,7 @@ public class AccountsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody Account input) {
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Account input) {
         return repo.findById(id).map(existing -> {
             if (repo.existsByCustomerIdAndNameIgnoreCaseAndIdNot(input.getCustomerId(), input.getName(), id)) {
                 throw new RuntimeException("account.conflict");
@@ -66,7 +66,7 @@ public class AccountsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
         if (!repo.existsById(id)) return ResponseEntity.notFound().build();
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
