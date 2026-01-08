@@ -8,8 +8,8 @@ import app.ingredients.CustomerDTO;
  
 public interface SendRegisterEmail extends Interaction {
     interface EmailResult {}
-    record EmailSent(String id) implements EmailResult {};
-    record EmailFailed(String reason) implements EmailResult {};
+    record EmailSent(String emailId) implements EmailResult {};
+    record EmailFailed(String emailFailReason) implements EmailResult {};
 
     @FiresEvent(oneOf = { EmailSent.class, EmailFailed.class })
     EmailResult apply(@RequiresIngredient("customer") CustomerDTO customer);

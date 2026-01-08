@@ -9,7 +9,7 @@ import app.ingredients.MoneyTransferDTO;
 public interface ValidateTransaction extends Interaction {
     interface TransactionValidationResult {}
     record TransactionValidated() implements TransactionValidationResult {};
-    record TransactionFailed(String reason) implements TransactionValidationResult {};
+    record TransactionFailed(String transactionFailReason) implements TransactionValidationResult {};
 
     @FiresEvent(oneOf = { TransactionValidated.class, TransactionFailed.class })
     TransactionValidationResult apply(@RequiresIngredient("transfer") MoneyTransferDTO transfer);

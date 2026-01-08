@@ -8,7 +8,7 @@ public interface ValidateTargetCustomer extends Interaction {
 
     record TargetCustomerValidated() implements CustomerValidationResult {};
 
-    record TargetCustomerFailed(String reason) implements CustomerValidationResult {};
+    record TargetCustomerFailed(String targetCustomerFailReason) implements CustomerValidationResult {};
 
     @FiresEvent(oneOf = { TargetCustomerValidated.class, TargetCustomerFailed.class })
     CustomerValidationResult apply(@RequiresIngredient("targetCustomerId") String accountId);

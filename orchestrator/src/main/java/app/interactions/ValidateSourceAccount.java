@@ -8,7 +8,7 @@ import app.ingredients.MoneyTransferDTO;
 
 public interface ValidateSourceAccount extends Interaction {
     record SourceAccountValidated(String sourceCustomerId) implements AccountValidationResult {};
-    record SourceAccountFailed(String sourceAccountId, String sourceReason) implements AccountValidationResult {};
+    record SourceAccountFailed(String sourceAccountId, String sourceAccountFailReason) implements AccountValidationResult {};
 
     @FiresEvent(oneOf = { SourceAccountValidated.class, SourceAccountFailed.class })
     AccountValidationResult apply(@RequiresIngredient("transfer") MoneyTransferDTO transfer);

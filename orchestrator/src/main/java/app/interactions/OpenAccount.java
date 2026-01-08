@@ -9,7 +9,7 @@ import app.ingredients.CustomerDTO;
 public interface OpenAccount extends Interaction {
     interface OpenAccountResult {}
     record AccountOpened(String accountId) implements OpenAccountResult {}
-    record AccountFailed(String reason) implements OpenAccountResult {}
+    record AccountFailed(String accountFailReason) implements OpenAccountResult {}
 
     @FiresEvent(oneOf = { AccountOpened.class, AccountFailed.class })
     OpenAccountResult apply(@RequiresIngredient("customerId") String customerId, 

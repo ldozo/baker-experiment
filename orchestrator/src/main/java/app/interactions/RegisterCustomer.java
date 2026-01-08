@@ -9,7 +9,7 @@ import app.ingredients.CustomerDTO;
 public interface RegisterCustomer extends Interaction {
     interface RegisterResult {}
     record CustomerRegistered (String customerId, CustomerDTO customer) implements RegisterResult {}
-    record CustomerRejected(String reason) implements RegisterResult {}
+    record CustomerRejected(String customerRejectReason) implements RegisterResult {}
 
     @FiresEvent(oneOf = { CustomerRegistered.class, CustomerRejected.class })
     RegisterResult apply(@RequiresIngredient("customer") CustomerDTO customer);

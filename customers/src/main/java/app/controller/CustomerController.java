@@ -62,6 +62,7 @@ public class CustomerController {
             existing.setLastname(input.getLastname());
             existing.setEmail(input.getEmail());
             existing.setStatus(input.getStatus());
+            existing.setAge(input.getAge());
             Customer saved = repo.save(existing);
             return ResponseEntity.ok(saved);
         }).orElseGet(() -> ResponseEntity.notFound().build());

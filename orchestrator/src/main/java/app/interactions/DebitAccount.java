@@ -9,7 +9,7 @@ import app.ingredients.MoneyTransferDTO;
 public interface DebitAccount extends Interaction {
     interface DebitAccountResult {}
     record DebitSucceed(String debitTransactionId) implements DebitAccountResult {}
-    record DebitFailed(String reason) implements DebitAccountResult {}
+    record DebitFailed(String debitFailReason) implements DebitAccountResult {}
 
     @FiresEvent(oneOf = { DebitSucceed.class, DebitFailed.class })
     DebitAccountResult apply(@RequiresIngredient("transfer") MoneyTransferDTO transfer);

@@ -7,7 +7,7 @@ import com.ing.baker.recipe.javadsl.Interaction;
 public interface ValidateSourceCustomer extends Interaction { 
     record SourceCustomerValidated() implements CustomerValidationResult {};
 
-    record SourceCustomerFailed(String reason) implements CustomerValidationResult {};
+    record SourceCustomerFailed(String sourceCustomerFailReason) implements CustomerValidationResult {};
 
     @FiresEvent(oneOf = { SourceCustomerValidated.class, SourceCustomerFailed.class })
     CustomerValidationResult apply(@RequiresIngredient("sourceCustomerId") String accountId);

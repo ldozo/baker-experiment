@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import axios from 'axios'
@@ -109,17 +108,9 @@ onBeforeUnmount(() => { mounted = false; gv = null; if (timer) clearInterval(tim
 </script>
 
 <template>
-  <div class="my-graphviz">
+  <div class="max-w-80">
     <div v-if="loading" class="status">Loading graph…</div>
     <div v-else-if="error" class="error">Error: {{ error }}</div>
     <div v-else ref="containerRef" class="canvas"></div>
   </div>
 </template>
-
-<style scoped>
-.my-graphviz { position: relative; }
-.status { color: #555; padding: 6px 0; }
-.error  { color: #c62828; padding: 6px 0; }
-.canvas { overflow: auto; min-height: 120px; }
-.canvas svg { display: block; width: 100%; height: auto; }
-</style>
