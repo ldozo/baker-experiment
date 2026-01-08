@@ -157,23 +157,21 @@
               <!-- Nationality -->
               <div>
                 <label class="block text-sm font-medium text-gray-700">Nationality</label>
-                <input
-                  v-model.trim="form.nationality"
-                  type="text"
-                  :disabled="!isEditing"
-                  class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:bg-gray-100 disabled:text-gray-500"
-                  placeholder="e.g., Turkish"
-                  list="nationalities"
-                />
-                <datalist id="nationalities">
-                  <option value="Turkish" />
-                  <option value="German" />
-                  <option value="French" />
-                  <option value="British" />
-                  <option value="American" />
-                </datalist>
+                <select
+                    id="nationality"
+                    :disabled="!isEditing"
+                    v-model="form.nationality"
+                    class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  >
+                    <option disabled value="">Select nationality</option>
+                    <option value="tr">Turkish</option>
+                    <option value="usa">American</option>
+                    <option value="gr">German</option>
+                    <option value="fr">French</option>
+                    <option value="br">British</option>
+                    <option value="Other">Other</option>
+                </select>
               </div>
-
               <!-- Actions: only Update -->
               <div class="pt-2 flex items-center justify-end">
                 <button
@@ -202,6 +200,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
 import { ref, onMounted } from 'vue'
 
 type Status = 'initial' | 'underage' | 'active' | 'deceased'
@@ -321,12 +320,7 @@ async function savePerson() {
     showBanner('Age must be between 0 and 120')
     return
   }
-
-  // Local state update
-  people.value = people.value.map(p =>
-    p.id === selectedId.value
-      ? {
-          ...p,
+  var formData = {
           firstname: form.value.firstname.trim(),
           lastname: form.value.lastname.trim(),
           status: form.value.status,
@@ -334,10 +328,13 @@ async function savePerson() {
           age: form.value.age ?? undefined,
           nationality: form.value.nationality.trim() || undefined,
         }
-      : p
-  )
-
-  showBanner('Person updated')
+  people.value = people.value.map(p => p.id === selectedId.value ? {...p, ...formData} : p )
+  axios.put(`http://localhost:8081/customers/${selectedId.value}`, formData)
+        .then(resp => showBanner('Person updated'))
+        .catch(err =>  { 
+          console.error(err)
+          showBanner('Failed to load customers')
+        })
 }
 </script>
 

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import app.domain.Customer;
+import app.domain.Status;
 import app.repository.CustomerRepository;
 
 import java.net.URI;
@@ -60,6 +61,7 @@ public class CustomerController {
             existing.setFirstname(input.getFirstname());
             existing.setLastname(input.getLastname());
             existing.setEmail(input.getEmail());
+            existing.setStatus(input.getStatus());
             Customer saved = repo.save(existing);
             return ResponseEntity.ok(saved);
         }).orElseGet(() -> ResponseEntity.notFound().build());
