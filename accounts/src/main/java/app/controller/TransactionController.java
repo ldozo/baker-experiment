@@ -7,6 +7,8 @@ import app.domain.TransactionType;
 import app.repository.AccountRepository;
 import app.repository.TransactionRepository;
 import jakarta.validation.Valid;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/transactions")
@@ -55,16 +60,32 @@ public class TransactionController {
         return apply(input, TransactionType.CREDIT);
     }
 
+    @PostMapping("/rollback/{id}")
+    @Transactional
+    public ResponseEntity<?> postMethodName(@PathVariable("id") String transactionId) {
+        var otx = txRepo.findById(transactionId);
+        if(otx.isEmpty()) {
+            throw new RuntimeException("Invalid transaction id");
+        }
+        var tx = otx.get();
+        if(tx.getType() == TransactionType.DEBIT)
+            apply(tx, TransactionType.CREDIT);
+        else 
+            apply(tx, TransactionType.DEBIT);
+        return ResponseEntity.ok().build();
+    }
+    
+
     // ---- Internal ----
 
     private ResponseEntity<?> apply(Transaction input, TransactionType type) {
         // Ensure account exists
-        Account account = accountRepo.findById(input.getAccountId()).orElse(null);
-        if (account == null) {
+        var oAccount = accountRepo.findById(input.getAccountId());
+        if (oAccount.isEmpty()) {
              throw new RuntimeException("Invalid Account");
         }
         // Amount > 0 already validated by @DecimalMin
-
+        var account = oAccount.get();
         BigDecimal amount = input.getAmount();
         if (type == TransactionType.CREDIT) {
             account.setBalance(account.getBalance().add(amount));

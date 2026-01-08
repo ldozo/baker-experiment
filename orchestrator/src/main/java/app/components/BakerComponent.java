@@ -11,6 +11,7 @@ import app.interactions.impl.CreditAccountImpl;
 import app.interactions.impl.DebitAccountImpl;
 import app.interactions.impl.OpenAccountImpl;
 import app.interactions.impl.RegisterCustomerImpl;
+import app.interactions.impl.RollbackDebitAccountImpl;
 import app.interactions.impl.SendRegisterEmailImpl;
 import app.interactions.impl.ValidateSourceAccountImpl;
 import app.interactions.impl.ValidateSourceCustomerImpl;
@@ -31,10 +32,11 @@ public class BakerComponent {
                             ValidateTargetCustomerImpl vtci,
                             ValidateTransactionImpl vti,
                             DebitAccountImpl dai,
-                            CreditAccountImpl cai
+                            CreditAccountImpl cai,
+                            RollbackDebitAccountImpl rdai
     ){
         _baker = InMemoryBaker.java(
-            List.of(rci, oai, srei, vsai, vsaci, vtai, vtci, vti, dai, cai)
+            List.of(rci, oai, srei, vsai, vsaci, vtai, vtci, vti, dai, cai, rdai)
         );
     }
 

@@ -17,7 +17,6 @@ import com.ing.baker.runtime.javadsl.EventInstance;
 import com.ing.baker.types.Value;
 
 import app.components.BakerComponent;
-import app.components.JSONing;
 import app.ingredients.MoneyTransferEvent;
 import app.ingredients.MoneyTransferDTO;
 import app.interactions.CreditAccount;

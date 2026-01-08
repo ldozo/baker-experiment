@@ -13,6 +13,7 @@ import app.components.BakerComponent;
 import app.ingredients.MoneyTransferEvent;
 import app.interactions.CreditAccount;
 import app.interactions.DebitAccount;
+import app.interactions.RollbackDebitAccount;
 import app.interactions.ValidateSourceAccount;
 import app.interactions.ValidateSourceCustomer;
 import app.interactions.ValidateTargetAccount;
@@ -48,6 +49,9 @@ public class MoneyTransferRecipe {
                                                      .withMaximumInteractionCount(1),
                             InteractionDescriptor.of(CreditAccount.class)
                                                      .withRequiredEvent(DebitAccount.DebitSucceed.class)
+                                                     .withMaximumInteractionCount(1),
+                            InteractionDescriptor.of(RollbackDebitAccount.class)
+                                                     .withRequiredEvent(CreditAccount.CreditFailed.class)
                                                      .withMaximumInteractionCount(1)
 
                         );

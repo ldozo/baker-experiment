@@ -37,4 +37,19 @@ public class TransactionRepo {
     public HttpResponse<String> credit(String accountId, BigDecimal amount) {
         return transaction("credit", accountId, amount);
     }
+
+    public HttpResponse<String> rollbackDebit(String transactionId) {
+        var reqPayload = new JSONObject();
+        reqPayload.put("transactionId", transactionId);
+        var url = URI.create(_endpoint + "/rollback"); 
+        var request = HttpRequest.newBuilder(url)
+                                 .header("Content-Type", "application/json")
+                                 .POST(HttpRequest.BodyPublishers.ofString(reqPayload.toString()))
+                                 .build();
+        try {
+            return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
